@@ -1,0 +1,16 @@
+.DS_Store
+.prettierrc
+.nyc_output
+.travis.yml
+.storybook
+flow-libs
+coverage
+coverage.lcov
+bench
+docs
+src
+examples
+babel.config.js
+test
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
