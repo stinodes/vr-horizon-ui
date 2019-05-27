@@ -1,6 +1,7 @@
 // @jsx jsx
 import { jsx } from '@emotion/core'
 import React from 'react'
+import { repeat } from 'ramda'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
@@ -50,7 +51,7 @@ storiesOf('Welcome', module)
         <Flex flexDirection="column">
           <Text css={{ paddingBottom: 8 }} fontSize={14} fontWeight="600">
             This is a storybook containing the main components used in{' '}
-            <Text as="span" fontSize={14} color="accent" fontWeight="700">
+            <Text as="span" fontSize={14} color="blues.3" fontWeight="700">
               VR-Horizon
             </Text>{' '}
             front-end projects.
@@ -67,6 +68,44 @@ storiesOf('Welcome', module)
       </Card>
     </Flex>
   ))
+
+const colors = [
+  'blues',
+  'teals',
+  'greens',
+  'yellows',
+  'reds',
+  'lights',
+  'darks',
+]
+storiesOf('Colors', module)
+  .addDecorator(withTheme)
+  .addDecorator(withKnobs)
+  .add('Overview', () => {
+    return (
+      <Flex flexDirection="column">
+        {colors.map(color => (
+          <Flex height={50}>
+            {repeat('', 5).map((v, i) => (
+              <Flex
+                justifyContent="center"
+                alignItems="center"
+                flex={1}
+                bg={`${color}.${i}`}>
+                <Text
+                  fontSize={10}
+                  fontWeight="600"
+                  color="white"
+                  css={{ textShadow: 'rgb(0, 0, 0, .3) 0 0 3px' }}>
+                  {color}.{i}
+                </Text>
+              </Flex>
+            ))}
+          </Flex>
+        ))}
+      </Flex>
+    )
+  })
 
 storiesOf('Text', module)
   .addDecorator(withTheme)
@@ -104,9 +143,13 @@ storiesOf('Button', module)
   .addDecorator(withTheme)
   .addDecorator(withKnobs)
   .add('default', () => {
-    const size = select('Size', { '"small"': 'small', '"regular"': null }, null)
+    const props = {
+      size: select('Size', { '"small"': 'small', '"regular"': null }, null),
+      disabled: boolean('Disabled', false),
+      important: boolean('Important', false),
+    }
     return (
-      <Button size={size} onClick={action('clicked')}>
+      <Button {...props} onClick={action('clicked')}>
         Click me!
       </Button>
     )

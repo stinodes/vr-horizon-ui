@@ -9,6 +9,7 @@ coverage.lcov
 bench
 docs
 src
+node_modules
 examples
 babel.config.js
 test

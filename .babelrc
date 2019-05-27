@@ -1,3 +1,9 @@
 {
-  "presets": [["react-app", { "absoluteRuntime": false }]]
+  "plugins": ["@babel/plugin-transform-flow-strip-types"],
+
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-env",
+    "@emotion/babel-preset-css-prop"
+  ]
 }

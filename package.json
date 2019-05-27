@@ -20,7 +20,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "rm -rf dist && NODE_ENV=production babel src/lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r lib/Components/Icons/feather dist/",
+    "build:cmd": "rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r lib/Components/Icons/feather dist/",
+    "build": "NODE_ENV=production yarn build:cmd",
+    "build:win": "set NODE_ENV=production&& yarn build:cmd",
     "test": "react-scripts test",
     "flow": "flow",
     "eject": "react-scripts eject",
@@ -43,13 +45,15 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
+    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
+    "@emotion/babel-preset-css-prop": "^10.0.9",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-knobs": "^5.0.11",
     "@storybook/addon-links": "^5.0.11",
     "@storybook/addons": "^5.0.11",
     "@storybook/react": "^5.0.11",
-    "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.6",
     "flow-bin": "^0.98.1",
     "prettier": "^1.17.1",
