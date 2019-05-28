@@ -385,6 +385,7 @@ storiesOf('Table', module)
 
     return (
       <Table
+        headerStyle={{ background: 'white' }}
         getId={prop('username')}
         loading={loading}
         columns={columns}
