@@ -1,6 +1,7 @@
 {
-  "plugins": ["@babel/plugin-transform-flow-strip-types"],
-
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types", 
+  ],
   "presets": [
     "@babel/preset-react",
     "@babel/preset-env",

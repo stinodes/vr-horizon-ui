@@ -147,6 +147,7 @@ storiesOf('Button', module)
       size: select('Size', { '"small"': 'small', '"regular"': null }, null),
       disabled: boolean('Disabled', false),
       important: boolean('Important', false),
+      raised: boolean('Raised', false),
     }
     return (
       <Button {...props} onClick={action('clicked')}>

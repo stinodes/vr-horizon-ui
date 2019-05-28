@@ -20,9 +20,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:cmd": "rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r lib/Components/Icons/feather dist/",
+    "build:cmd": "rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r dist/Components/Icons dist/Icons && rm -rf dist/Components/Icons/feather",
     "build": "NODE_ENV=production yarn build:cmd",
     "build:win": "set NODE_ENV=production&& yarn build:cmd",
+    "build:icons": "svgr --svg-props viewBox=\"0 0 24 24\" -d lib/Components/Icons/ lib/Components/Icons/feather",
     "test": "react-scripts test",
     "flow": "flow",
     "eject": "react-scripts eject",
@@ -54,11 +55,12 @@
     "@storybook/addon-links": "^5.0.11",
     "@storybook/addons": "^5.0.11",
     "@storybook/react": "^5.0.11",
+    "@svgr/cli": "^4.2.0",
     "babel-loader": "^8.0.6",
     "flow-bin": "^0.98.1",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.0.1"
   }
 }
