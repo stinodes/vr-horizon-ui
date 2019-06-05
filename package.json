@@ -1,7 +1,7 @@
 {
   "name": "vr-horizon-ui",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.0.1-alpha.2",
+  "private": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
   "files": [
@@ -9,10 +9,6 @@
     "README.md"
   ],
   "dependencies": {
-    "@emotion/core": "^10.0.10",
-    "@emotion/styled": "^10.0.11",
-    "emotion": "^10.0.9",
-    "emotion-theming": "^10.0.10",
     "polished": "^3.3.2",
     "ramda": "^0.26.1",
     "react-select": "^2.4.3",
@@ -22,16 +18,17 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:cmd": "rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r dist/Components/Icons dist/Icons && rm -rf dist/Components/Icons/feather",
-    "build": "NODE_ENV=production yarn build:cmd",
-    "build:win": "set NODE_ENV=production&& yarn build:cmd",
+    "build:cmd": "cross-env-shell rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r dist/Components/Icons dist/Icons && rm -rf dist/Components/Icons/feather",
+    "build": "cross-env NODE_ENV=production yarn build:cmd",
     "build:icons": "svgr --svg-props viewBox=\"0 0 24 24\" -d lib/Components/Icons/ lib/Components/Icons/feather",
     "test": "react-scripts test",
     "flow": "flow",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "publish": "yarn flow && yarn publish",
+    "publish:win": "yarn flow && yarn publish"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,12 +58,18 @@
     "@storybook/react": "^5.0.11",
     "@storybook/storybook-deployer": "^2.8.1",
     "@svgr/cli": "^4.2.0",
-    "babel-loader": "^8.0.6",
+    "cross-env": "^5.2.0",
     "flow-bin": "^0.98.1",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "^3.0.1",
     "storybook-readme": "^5.0.3"
+  },
+  "peerDependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.11",
+    "emotion": "^10.0.9",
+    "emotion-theming": "^10.0.10"
   }
 }
