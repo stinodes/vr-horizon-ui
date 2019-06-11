@@ -5,11 +5,12 @@ Pass in `<ContextMenuItem>` as children, with interactive props similar to butto
 
 ### Context Menu Props
 
-| Prop         | Value                     | Notes                                                         |
-| ------------ | ------------------------- | ------------------------------------------------------------- |
-| bg?          | `string`                  | Can be any web-color or color present in the theme.           |
-| shadow?      | `boolean`                 | Whether or not to display shadows                             |
-| coordinates? | `?{x: number, y: number}` | If present, the menu will be shown at the passed coordinates. |
+| Prop           | Value                     | Notes                                                         |
+| -------------- | ------------------------- | ------------------------------------------------------------- |
+| bg?            | `string`                  | Can be any web-color or color present in the theme.           |
+| shadow?        | `boolean`                 | Whether or not to display shadows                             |
+| coordinates?   | `?{x: number, y: number}` | If present, the menu will be shown at the passed coordinates. |
+| onRequestClose | `() => any`               | A function called when the menu should be closed.             |
 
 ### Context Menu Item Props
 

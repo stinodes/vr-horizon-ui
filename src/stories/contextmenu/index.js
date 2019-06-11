@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { number, boolean } from '@storybook/addon-knobs'
+import { text, number, boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 
 import contextMenuMd from './contextMenu.md'
@@ -38,9 +38,14 @@ storiesOf('ContextMenu', module)
   .add(
     'OverflowButton',
     () => {
+      const props = {
+        color: text('Icon color', 'darks.4'),
+        bg: text('Button background', 'lights.2'),
+        contextMenuBg: text('Context menu background', 'white'),
+      }
       return (
         <Flex justifyContent="flex-end" maxWidth={300} pb={100}>
-          <OverflowButton>
+          <OverflowButton {...props}>
             <ContextMenuItem onClick={action('Pressed "More info"')}>
               More info
             </ContextMenuItem>
