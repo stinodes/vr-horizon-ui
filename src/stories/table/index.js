@@ -1,9 +1,8 @@
-// @jsx jsx
+/** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React from 'react'
+import { useEffect, useRef } from 'react'
 import { storiesOf } from '@storybook/react'
 import { boolean } from '@storybook/addon-knobs'
-import { action } from '@storybook/addon-actions'
 
 import { useSpring, animated } from 'react-spring'
 import { prop, values } from 'ramda'
@@ -106,9 +105,9 @@ storiesOf('Table', module)
     ]
 
     const CustomRow = ({ row, ...props }) => {
-      const rowsRef = React.useRef([])
+      const rowsRef = useRef([])
       const [spring, set] = useSpring(() => ({ width: 0 }))
-      React.useEffect(() => {
+      useEffect(() => {
         const getCellWidth = cell => cell.getBoundingClientRect().width
         const steps = values(row.original.steps)
         const width = rowsRef.current.reduce(
@@ -118,7 +117,7 @@ storiesOf('Table', module)
         )
 
         set({ width })
-      }, [row.values.steps])
+      }, [row.original.steps, set])
 
       return (
         <Row css={{ position: 'relative' }} {...props}>

@@ -1,17 +1,9 @@
-// @jsx jsx
+/** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React from 'react'
-import { values, findLastIndex, prop, repeat } from 'ramda'
-import { animated, useSpring } from 'react-spring'
 
 import { storiesOf } from '@storybook/react'
-import { action } from '@storybook/addon-actions'
-import { withKnobs, color, select, text, boolean } from '@storybook/addon-knobs'
-import { linkTo } from '@storybook/addon-links'
 
 import { Flex, Heading, Text, Card } from '../../lib'
-
-import { Welcome } from '@storybook/react/demo'
 
 storiesOf('Welcome', module).add('to VR-Horizon UI', () => (
   <Flex flex={1} justifyContent="center" alignItems="center">
