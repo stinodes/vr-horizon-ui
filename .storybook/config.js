@@ -15,8 +15,19 @@ addParameters({
   },
 })
 
+let hasAppended = false
+const withPortalRoot = story => {
+  if (!hasAppended) {
+    const element = document.createElement('div')
+    element.setAttribute('id', 'portal-root')
+    document.body.appendChild(element)
+    hasAppended = true
+  }
+  return story()
+}
 const withTheme = story => <ThemeProvider>{story()}</ThemeProvider>
 addDecorator(addReadme)
+addDecorator(withPortalRoot)
 addDecorator(withTheme)
 addDecorator(withKnobs)
 
