@@ -1,15 +1,16 @@
-## Context Menu
+## Overflow Button
 
-A context-menu component, taking coordinates and is displayed in a **Portal** at the given position.  
+An overflow button component. When clicked, it displays a context-menu, based on the position of the button.  
 Pass in `<ContextMenuItem>` as children, with interactive props similar to buttons.
 
-### Context Menu Props
+### Overflow Button Props
 
-| Prop         | Value                     | Notes                                                         |
-| ------------ | ------------------------- | ------------------------------------------------------------- |
-| bg?          | `string`                  | Can be any web-color or color present in the theme.           |
-| shadow?      | `boolean`                 | Whether or not to display shadows                             |
-| coordinates? | `?{x: number, y: number}` | If present, the menu will be shown at the passed coordinates. |
+The overflow-button takes the same props as a regular `<Button>` component, on top of the following:
+
+| Prop   | Value           | Notes                                       |
+| ------ | --------------- | ------------------------------------------- |
+| icon?  | `ComponentType` | Icon to render. Will use `Dots` by default. |
+| width? | `number`        | The width of the context-menu.              |
 
 ### Context Menu Item Props
 
