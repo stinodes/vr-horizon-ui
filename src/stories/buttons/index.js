@@ -10,7 +10,11 @@ storiesOf('Button', module).add(
   'default',
   () => {
     const props = {
-      size: select('Size', { '"small"': 'small', '"regular"': null }, null),
+      size: select(
+        'Size',
+        { '"small"': 'small', '"regular"': null, '"circle"': 'circle' },
+        null,
+      ),
       disabled: boolean('Disabled', false),
       important: boolean('Important', false),
       raised: boolean('Raised', false),
