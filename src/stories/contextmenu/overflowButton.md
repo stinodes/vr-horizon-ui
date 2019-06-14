@@ -14,10 +14,9 @@ The overflow-button takes the same props as a regular `<Button>` component, on t
 
 ### Context Menu Item Props
 
-| Prop     | Value          | Notes                                                                                                                                |
-| -------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| bg?      | `string`       | Can be any web-color or color present in the theme.                                                                                  |
-| color?   | `string`       | Can be any web-color or color present in the theme.                                                                                  |
-| onClick? | `Event => any` | On-click handler.                                                                                                                    |
-| to?      | `string`       | A (relative) path to navigate to. Will use [`@reach/router`](https://www.github.com/reach/router)'s Link component instead of Button |
-| href?    | `string`       | A path to navigate to. Will render an `a`-tag instead.                                                                               |
+| Prop     | Value          | Notes                                                  |
+| -------- | -------------- | ------------------------------------------------------ |
+| bg?      | `string`       | Can be any web-color or color present in the theme.    |
+| color?   | `string`       | Can be any web-color or color present in the theme.    |
+| onClick? | `Event => any` | On-click handler.                                      |
+| href?    | `string`       | A path to navigate to. Will render an `a`-tag instead. |
