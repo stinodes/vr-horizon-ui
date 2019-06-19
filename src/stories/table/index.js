@@ -59,6 +59,7 @@ storiesOf('Table', module)
 
     return (
       <Table
+        stickyOffset={40}
         headerStyle={{ background: 'white' }}
         getId={prop('username')}
         loading={loading}
