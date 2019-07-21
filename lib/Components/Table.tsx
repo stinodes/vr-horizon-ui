@@ -1,4 +1,3 @@
-// @flow
 //@jsx jsx
 import { jsx } from '@emotion/core'
 import { compose, prop, path, split, isEmpty } from 'ramda'
@@ -21,10 +20,36 @@ import { Icon } from './Icons'
 import { Spinner } from './Spinner'
 import { Button } from './Button'
 
+type Column<Data> = {
+  Header: void | string | (() => React.ReactNode),
+  Cell: ((TableCellType<Data> & Object) => React.ReactNode),
+  Filter?: (props: Object) => React.ReactNode,
+  id?: string,
+  accessor: string | (props: any) => any),
+  minWidth?: number,
+  maxWidth?: number,
+}
+type TableCellType<Data> = {
+  column: Column<Data>,
+  getCellProps: () => Object,
+  render: (name: string, props: ?Object) => React.ReactNode,
+}
+export type TableRowType<Data> = {
+  original: Data,
+  index: number,
+  getRowProps: () => Object,
+  cells: TableCellType<Data>[],
+}
+
+type NoDataProps = {
+  emptyLabel: string,
+  emptyAction?: React.Element<typeof EmptyAction>,
+}
+
 export const TableElement = styled('table')(width, height)
 export const THead = styled('thead')()
 
-const _Header = ({ children, ...props }: { children: React.Node }) => (
+const _Header = ({ children, ...props }: { children: React.ReactNode}) => (
   <th {...props}>
     <div>{children}</div>
   </th>
@@ -56,7 +81,7 @@ export const Row = styled('tr')(space, ({ theme: { colors } }) => ({
 }))
 
 const _Cell = React.forwardRef(
-  ({ children, ...props }: { children: React.Node }, ref) => (
+  ({ children, ...props }: { children: React.ReactNode }, ref: React.Ref<HTMLTableCellElement>) => (
     <td {...props} ref={ref}>
       <div>{children}</div>
     </td>
@@ -88,18 +113,19 @@ export const CellText = styled(Text)(
   }),
 )
 
+type ExtendedRowProps = {
+  row: TableRowType<any>,
+  component?: React.ComponentType<any>,
+  render?: (props: { row: TableRowType<any> }) => React.ReactNode,
+  children?: React.ReactNode,
+}
 export const ExtendedRow = ({
   row,
-  component: Comp,
+  component,
   render,
   children,
   ...props
-}: {
-  row: TableRowType<*>,
-  component?: React.ComponentType<*>,
-  render?: ({ row: TableRowType<*> }) => React.Node,
-  children?: React.Node,
-}) => {
+}: ExtendedRowProps) => {
   let ch = children
   if (render) ch = render({ row, ...props })
   if (Comp) ch = <Comp {...props} row={row} />
@@ -113,6 +139,7 @@ export const ExtendedRow = ({
     </Row>
   )
 }
+
 export const HoverRow = <Data>({
   row,
   ...props
@@ -138,31 +165,6 @@ export const HoverRow = <Data>({
   </Row>
 )
 
-type Column<Data> = {
-  Header: void | string | (() => React.Node),
-  Cell: (TableCellType<Data> & Object) => React.Node,
-  Filter?: Object => React.Node,
-  id?: string,
-  accessor: string | (any => any),
-  minWidth?: number,
-  maxWidth?: number,
-}
-type TableCellType<Data> = {
-  column: Column<Data>,
-  getCellProps: () => Object,
-  render: (string, ?Object) => React.Node,
-}
-export type TableRowType<Data> = {
-  original: Data,
-  index: number,
-  getRowProps: () => Object,
-  cells: TableCellType<Data>[],
-}
-
-type NoDataProps = {
-  emptyLabel: string,
-  emptyAction?: React.Element<typeof EmptyAction>,
-}
 type Props<Data> = {
   data: Data[],
   rowProps?: Object,

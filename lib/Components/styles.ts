@@ -1,4 +1,3 @@
-// @flow
 import {
   compose,
   // layout
@@ -35,11 +34,50 @@ import {
   left,
   right,
   bottom,
+  DisplayProps,
+  SpaceProps,
+  WidthProps,
+  HeightProps,
+  MaxWidthProps,
+  MinWidthProps,
+  MinHeightProps,
+  MaxHeightProps,
+  FlexProps,
+  AlignItemsProps,
+  AlignContentProps,
+  JustifyContentProps,
+  JustifyItemsProps,
+  FlexWrapProps,
+  FlexBasisProps,
+  FlexDirectionProps,
+  JustifySelfProps,
+  AlignSelfProps,
+  OrderProps,
+  FontSizeProps,
+  FontWeightProps,
+  TextAlignProps,
+  VerticalAlignProps,
+  LetterSpacingProps,
+  LineHeightProps,
+  PositionProps as PosProps,
+  TopProps,
+  LeftProps,
+  RightProps,
+  BottomProps,
 } from 'styled-system'
 import { mergeRight, path } from 'ramda'
 import { tint, shade } from 'polished'
+import { FlexWrapProperty } from 'csstype'
 
-export const layout = compose(
+export type LayoutProps = SpaceProps &
+  WidthProps &
+  MinWidthProps &
+  MaxWidthProps &
+  HeightProps &
+  MinHeightProps &
+  MaxHeightProps &
+  DisplayProps
+export const layout: (props: LayoutProps) => any = compose(
   space,
   display,
   minWidth,
@@ -50,7 +88,19 @@ export const layout = compose(
   verticalAlign,
   width,
 )
-export const flexBox = compose(
+
+export type FlexBoxProps = FlexProps &
+  AlignItemsProps &
+  AlignContentProps &
+  JustifyContentProps &
+  JustifyItemsProps &
+  FlexWrapProps &
+  FlexBasisProps &
+  FlexDirectionProps &
+  JustifySelfProps &
+  AlignSelfProps &
+  OrderProps
+export const flexBox: (props: FlexBoxProps) => any = compose(
   () => ({ display: 'flex' }),
   alignItems,
   alignContent,
@@ -65,7 +115,14 @@ export const flexBox = compose(
   alignSelf,
   order,
 )
-export const typography = compose(
+
+export type TypographyProps = FontSizeProps &
+  FontWeightProps &
+  TextAlignProps &
+  VerticalAlignProps &
+  LetterSpacingProps &
+  LineHeightProps
+export const typography: (props: TypographyProps) => any = compose(
   fontSize,
   fontWeight,
   textAlign,
@@ -74,7 +131,12 @@ export const typography = compose(
   lineHeight,
 )
 
-export const position = compose(
+export type PositionProps = PosProps &
+  LeftProps &
+  RightProps &
+  TopProps &
+  BottomProps
+export const position: (props: PositionProps) => any = compose(
   positionStyle,
   top,
   left,
@@ -83,16 +145,18 @@ export const position = compose(
 )
 
 type ColorStyles = {
-  backgroundColor: ?string,
-  color: ?string,
+  backgroundColor: void | string
+  color: void | string
 }
 
-const withValidColor = (fn: string => string) => (color: ?string) => {
+const withValidColor = (fn: (color: string) => string) => (
+  color: void | string,
+) => {
   if (!color || color === 'transparent') return color
   return fn(color)
 }
-export const interactiveColor = <Props: { disabled?: boolean }>(
-  fn: Props => ColorStyles,
+export const interactiveColor = <Props extends { disabled?: boolean }>(
+  fn: (props: Props) => ColorStyles,
 ) => {
   return (props: Props) => {
     const { color, backgroundColor } = fn(props)
@@ -106,11 +170,9 @@ export const interactiveColor = <Props: { disabled?: boolean }>(
       transition: 'color .2s ease, background-color .2s ease',
       outline: 'none',
       ':hover': {
-        // color: hover(color),
         backgroundColor: hover(backgroundColor),
       },
       ':active': {
-        // color: active(color),
         backgroundColor: active(backgroundColor),
       },
     }
@@ -118,27 +180,31 @@ export const interactiveColor = <Props: { disabled?: boolean }>(
 }
 
 export const outline = <
-  Props: { borderRadius?: number, noOutline?: boolean, theme: any },
+  Props extends {
+    borderRadius?: number | ((props: Props) => void | number)
+    noOutline?: boolean
+    theme: any
+  }
 >({
   borderRadius,
   focus = true,
   prop,
 }: {
-  borderRadius?: ?number | (Props => ?number),
-  focus?: boolean,
-  prop?: string,
+  borderRadius?: number | ((props: Props) => void | number)
+  focus?: boolean
+  prop?: string
 } = {}) => {
   return (props: Props) => {
     let {
       theme: { colors },
     } = props
-    let br
-    let focusStyle
-    let outlineStyle
+    let br: number | void
+    let focusStyle: Object | void
+    let outlineStyle: Object | void
     if (typeof borderRadius === 'number') br = borderRadius
     else if (typeof borderRadius === 'function') br = borderRadius(props)
     if (typeof props.borderRadius === 'number') br = props.borderRadius
-    else if (typeof props.borderRadius === 'function')
+    else if (props.borderRadius && typeof props.borderRadius === 'function')
       br = props.borderRadius(props)
 
     if (focus)
@@ -180,12 +246,14 @@ export const outline = <
   }
 }
 
-const callOrReturn = <Props>(fn: Object | (Props => Object), props: Props) =>
-  typeof fn === 'function' ? fn(props) : fn
+const callOrReturn = <Props>(
+  fn: Object | ((props: Props) => Object),
+  props: Props,
+) => (typeof fn === 'function' ? fn(props) : fn)
 
 export const customize = <Props>(
   name: string,
-  base?: Object | (Props => ?Object),
+  base?: Object | ((props: Props) => Object),
 ) => {
   const getCustomization = path(['theme', name])
   return (props: Props) => {
