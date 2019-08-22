@@ -1,4 +1,3 @@
-// @flow
-export * from './Components'
+export * from './components'
 export * from './theme'
-export * from './Hooks'
+export * from './hooks'

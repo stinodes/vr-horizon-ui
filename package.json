@@ -21,7 +21,7 @@
     "react-spring": "^8.0.20",
     "react-table": "^7.0.0-alpha.3",
     "recompose": "^0.30.0",
-    "styled-system": "^4.2.2",
+    "styled-system": "^5.1.0",
     "typescript": "^3.5.2"
   },
   "scripts": {
@@ -68,10 +68,9 @@
     "@storybook/storybook-deployer": "^2.8.1",
     "@svgr/cli": "^4.2.0",
     "@types/recompose": "^0.30.6",
-    "@types/styled-system": "^4.2.1",
+    "@types/styled-system": "^5.1.0",
     "cross-env": "^5.2.0",
     "emotion-theming": "^10.0.14",
-    "flow-bin": "^0.98.1",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
