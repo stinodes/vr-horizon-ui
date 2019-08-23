@@ -20,6 +20,7 @@ type Props = {
   bg?: string
 } & FlexProps
 export const MessageBox = ({ message, color, bg, ...props }: Props) => {
+  const componentProps = props
   const transition = useTransition(message, null, {
     from: { transform: 'translateY(-130%)' },
     enter: { transform: 'translateY(0%)' },
@@ -34,7 +35,7 @@ export const MessageBox = ({ message, color, bg, ...props }: Props) => {
             px={4}
             py={2}
             bg={bg || 'error'}
-            {...props}
+            {...componentProps}
             style={props}>
             <Text color={color || 'white'}>{item}</Text>
           </AnimatedFlex>

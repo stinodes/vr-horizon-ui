@@ -7,7 +7,8 @@ export const useMatchingBreakpoint = (
   size: 'sm' | 'md' | 'lg' | 'xlg',
   disable?: boolean,
 ) => {
-  const { breakpoints } = useContext(ThemeContext) as Theme
+  const theme = useContext(ThemeContext) as Theme
+  const breakpoints = theme.breakpoints
   const [isMatching, setMatching] = useState(false)
 
   const handleResize = useCallback(() => {

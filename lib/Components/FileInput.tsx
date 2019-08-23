@@ -1,14 +1,19 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
+import { useState, useRef, useCallback, SyntheticEvent, DragEvent } from 'react'
+import { path } from 'ramda'
 import { Button } from './Button'
 import { Icon } from './Icons'
-import X from './Icons/X'
+import X from './Icons/feather/x.svg'
 import { layout, flexbox, position } from 'styled-system'
 import { styled } from '../utils'
 import { Flex } from './Flex'
-import { useState, useRef, useCallback } from 'react'
 
-const DropArea = styled(Button)(
+const DropArea = styled(Button)<{
+  dragOver: boolean
+  draggingOver: boolean
+  outline?: boolean | string
+}>(
   layout,
   flexbox,
   position,
@@ -26,7 +31,7 @@ type Props = {
   name: string
   onChange: (event: { target: { name: string; value: null | File } }) => any
   placeholder: string
-  size?: null | 'small' | 'large'
+  size?: 'small' | 'regular'
   bg?: string
   color?: string
   disabled?: boolean
@@ -85,7 +90,7 @@ export const FileInput = ({
           draggingOver={dragOver}
           onDragLeave={onDragLeave}
           onDragEnter={onDragEnter}
-          onDragOver={e => e.preventDefault()}
+          onDragOver={(e: DragEvent<HTMLButtonElement>) => e.preventDefault()}
           onClick={() => input.current && input.current.click()}
           onDrop={onDrop}>
           {!value ? placeholder : `"${value.name}"`}
@@ -105,7 +110,11 @@ export const FileInput = ({
         accept=".png,.jpg,.jpeg,.gif,.pdf"
         {...props}
         name={name}
-        onChange={e => onChange({ target: { name, value: e.target.files[0] } })}
+        onChange={e =>
+          onChange({
+            target: { name, value: path(['target', 'files', 0], e) || null },
+          })
+        }
       />
     </Flex>
   )

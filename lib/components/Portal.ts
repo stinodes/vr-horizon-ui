@@ -1,7 +1,7 @@
 import { ReactNode, useMemo, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-let portalRoot
+let portalRoot: undefined | null | HTMLElement
 const getPortalRoot = () => {
   if (!portalRoot) portalRoot = document.getElementById('portal-root')
   return portalRoot

@@ -1,7 +1,7 @@
 import { styled } from '../utils'
 import { Flex, FlexProps } from './Flex'
-import { position } from './styles'
 import {
+  position,
   left,
   top,
   right,

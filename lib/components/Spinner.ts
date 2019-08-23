@@ -11,7 +11,7 @@ const animation = keyframes({
   },
 })
 
-export const Spinner = styled('div')(
+export const Spinner = styled('div')<{ size?: number; color?: string }>(
   {
     borderRadius: '50%',
     background: 'transparent',

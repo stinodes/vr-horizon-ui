@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
+import { jsx, CSSObject } from '@emotion/core'
 import {
   useMemo,
   useState,
@@ -9,7 +9,6 @@ import {
   SVGAttributes,
 } from 'react'
 import { useTransition, animated } from 'react-spring'
-import Dots from './Icons/MoreHorizontal'
 import { useOnEscPress } from '../hooks'
 import { Flex } from './Flex'
 import { FlexButton, Button } from './Button'
@@ -19,7 +18,9 @@ import { Portal } from './Portal'
 import { Absolute } from './Absolute'
 import { Card, CardProps } from './Card'
 import { styled } from '../utils'
+import Dots from './Icons/feather/more-horizontal.svg'
 
+const AnimatedAbsolute = Absolute.withComponent(animated.div)
 const Overlay = styled(Flex)({
   position: 'fixed',
   top: 0,
@@ -74,13 +75,15 @@ export const ContextMenu = ({
         return (
           <Portal key={`context-menu-portal_${key}`}>
             <Overlay key={`context-menu_${key}`} onClick={onRequestClose}>
-              <Absolute as={animated.div} style={props} {...position}>
+              <AnimatedAbsolute style={props} {...position}>
                 <Card
-                  css={{
-                    maxHeight: maxHeight || MAX_HEIGHT,
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                  }}
+                  css={
+                    {
+                      maxHeight: maxHeight || MAX_HEIGHT,
+                      overflowY: 'auto',
+                      overflowX: 'hidden',
+                    } as CSSObject
+                  }
                   py={1}
                   size="small"
                   flexDirection="column"
@@ -90,7 +93,7 @@ export const ContextMenu = ({
                   {...componentProps}>
                   {children}
                 </Card>
-              </Absolute>
+              </AnimatedAbsolute>
             </Overlay>
           </Portal>
         )
@@ -118,7 +121,10 @@ export const OverflowButton = ({
   contextMenuBg,
   ...props
 }: OverflowButtonProps) => {
-  const [coordinates, setCoordinates] = useState(null)
+  const [coordinates, setCoordinates] = useState<null | {
+    x: number
+    y: number
+  }>(null)
   const ref = useRef<null | HTMLButtonElement>(null)
   const onDotsClick = () => {
     const target = ref.current

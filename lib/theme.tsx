@@ -31,7 +31,7 @@ export const baseTheme = {
     primary: blues[2],
   },
   fontFamily: 'Montserrat',
-  breakpoints: { sm: 0, md: '40em', lg: '64em', xlg: '80em' },
+  breakpoints: { sm: '0em', md: '40em', lg: '64em', xlg: '80em' },
   space: [0, 8, 16, 24, 32, 48, 64, 128, 256, 512],
 }
 
@@ -53,4 +53,4 @@ export const ThemeProvider = ({ theme = {}, ...props }: ThemeProviderProps) => {
   return <TP {...props} theme={mergedTheme} />
 }
 
-export type Theme = ThemeType & { fontFamily: string }
+export type Theme = ThemeType & typeof baseTheme

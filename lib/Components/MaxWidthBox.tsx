@@ -2,7 +2,7 @@ import React, { forwardRef, Ref } from 'react'
 import { FlexProps, Flex } from './Flex'
 
 export const MaxWidthBox = forwardRef(
-  (props: FlexProps, ref: Ref<null | HTMLDivElement>) => (
+  (props: FlexProps, ref: Ref<HTMLDivElement>) => (
     <Flex
       ref={ref}
       px={{ sm: 5, lg: 140 }}

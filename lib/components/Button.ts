@@ -1,12 +1,15 @@
 import { transparentize } from 'polished'
 import { color, typography } from 'styled-system'
+import { join, compose, prop, mergeAll } from 'ramda'
+import { CSSObject } from '@emotion/css'
 import { interactiveColor, outline } from './styles'
 import { Flex, FlexProps } from './Flex'
 import { getColor, styled } from '../utils'
-import { join, compose, prop, mergeAll } from 'ramda'
-import { CSSObject } from '@emotion/css'
+import { Theme } from '../theme'
 
-const buttonColor = interactiveColor(
+const buttonColor: (
+  props: ColorProps & DisabledProps,
+) => CSSObject = interactiveColor(
   compose(
     mergeAll,
     color,
@@ -15,7 +18,7 @@ const buttonColor = interactiveColor(
 
 type ColorProps = { bg?: string; color?: string }
 type ShadowProps = {
-  bg?: string | string[]
+  bg?: string
   raised?: boolean
   important?: boolean
 }
@@ -23,10 +26,10 @@ type DisabledProps = { disabled?: boolean }
 
 const shadows = ({
   theme,
-  bg = getColor('primary', theme),
+  bg = 'primary',
   raised,
   important,
-}) => {
+}: ShadowProps & { theme: Theme }) => {
   const shadows = []
   if (raised) shadows.push('rgba(0, 0, 0, .2) 0 8px 16px')
   if (important)
@@ -52,7 +55,8 @@ const Base = styled(Flex.withComponent('button'))<BaseProps>(
 
 const BaseWithOutline = styled(Base)<BaseProps>(outline())
 
-const button = ({ size }) => {
+type SizeProps = { size?: 'regular' | 'small' | 'circle' }
+const button = ({ size }: SizeProps) => {
   if (size === 'small') {
     return {
       padding: '8px 16px',
@@ -72,7 +76,8 @@ const button = ({ size }) => {
     borderRadius: 2,
   }
 }
-type StyledProps = BaseProps & { size?: 'regular' | 'small' | 'circle' }
+
+type StyledProps = BaseProps & SizeProps
 const StyledButton = styled(Base)<StyledProps>(
   {
     justifyContent: 'center',
@@ -81,15 +86,12 @@ const StyledButton = styled(Base)<StyledProps>(
     fontWeight: 600,
   } as CSSObject,
   outline({
-    borderRadius: compose(
-      prop('borderRadius'),
-      button,
-    ),
+    borderRadius: (props: {}) => button(props).borderRadius,
   }),
   button,
 )
 
-const floatingButton = ({ size }) => ({
+const floatingButton = ({ size = 64 }: { size?: number }) => ({
   width: size,
   height: size,
   borderRadius: size * 0.5,
@@ -100,10 +102,7 @@ const StyledFloatingButton = styled(Base)<BaseProps & { size?: number }>(
     justifyContent: 'center',
   },
   outline({
-    borderRadius: compose(
-      prop('borderRadius'),
-      floatingButton,
-    ),
+    borderRadius: (props: {}) => floatingButton(props).borderRadius,
   }),
   floatingButton,
 )

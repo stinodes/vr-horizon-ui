@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import _Select from 'react-select'
-import withProps from 'recompose/withProps'
 import { Outline } from './Outline'
 import { outline } from './styles'
+import { SelectComponentsProps } from 'react-select/src/Select'
 
 const optionOutline = outline({
   focus: true,
-  prop: 'outline',
 })
 const styleObject = {
-  container: (provided, state) => ({
-    flex: 1,
-  }),
-  control: (provided, state) => ({
+  container: () =>
+    ({
+      flex: 1,
+    } as CSSProperties),
+  control: () => ({
     justifyContent: 'space-between',
     display: 'flex',
     border: 'none',
@@ -23,49 +23,52 @@ const styleObject = {
     fontSize: 16,
     fontFamily: 'Montserrat',
   }),
-  valueContainer: (provided, state) => ({
-    padding: 0,
-  }),
-  singleValue: provided => ({
-    ...provided,
-    color: '#505659',
-  }),
+  valueContainer: () =>
+    ({
+      padding: 0,
+    } as CSSProperties),
+  singleValue: (provided: CSSProperties) =>
+    ({
+      ...provided,
+      color: '#505659',
+    } as CSSProperties),
   indicatorSeparator: () => ({ display: 'none' }),
-  menu: provided => ({
-    ...provided,
-    background: '#f3f5f5',
-    border: 'none',
-    display: 'flex',
-    flexDirection: 'column',
-  }),
-  optionList: (provided, state) => ({
-    display: 'flex',
-    flexDirection: 'column',
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    ...optionOutline(
-      ({
+  menu: (provided: CSSProperties) =>
+    ({
+      ...provided,
+      background: '#f3f5f5',
+      border: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+    } as CSSProperties),
+  optionList: () =>
+    ({
+      display: 'flex',
+      flexDirection: 'column',
+    } as CSSProperties),
+  option: (
+    provided: CSSProperties,
+    state: { isFocused?: boolean; isSelected?: boolean },
+  ) =>
+    ({
+      ...provided,
+      ...optionOutline({
         outline: state.isFocused || state.isSelected,
         theme: {},
-      }: any),
-    ),
-    fontFamily: 'Montserrat',
-    background: state.isSelected ? 'Highlight' : 'transparent',
-    width: 'auto',
-    display: 'flex',
-    alignSelf: 'stretch',
-    margin: '0 1.5px',
-    padding: '16px 32px',
-    fontSize: 16,
-    color: '#505659',
-  }),
+      } as any),
+      fontFamily: 'Montserrat',
+      background: state.isSelected ? 'Highlight' : 'transparent',
+      width: 'auto',
+      display: 'flex',
+      alignSelf: 'stretch',
+      margin: '0 1.5px',
+      padding: '16px 32px',
+      fontSize: 16,
+      color: '#505659',
+    } as CSSProperties),
 }
-const SelectWithProps = withProps(props => ({ ...props, styles: styleObject }))(
-  _Select,
-)
-export const Select = (props: typeof Select.props) => (
+export const Select = ({ styles, ...props }: SelectComponentsProps) => (
   <Outline>
-    <SelectWithProps {...props} />
+    <_Select styles={styleObject} {...props} />
   </Outline>
 )

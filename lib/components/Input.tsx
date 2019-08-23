@@ -1,26 +1,26 @@
-import React, { ReactNode } from 'react'
-import { path } from 'ramda'
-import { Text } from './Text'
+import React, { ReactNode, SyntheticEvent } from 'react'
+import { Text, TextProps } from './Text'
 import { Flex } from './Flex'
 import { Outline } from './Outline'
-import { errorOutline, styled } from '../utils'
+import { styled } from '../utils'
 import { layout, flexbox } from 'styled-system'
 
-export const BaseInput = styled(Text.withComponent('input'))({
+export const BaseInput = styled(Text.withComponent('input'))<TextProps>({
   background: 'none',
   border: 'none',
   outline: 'none',
   width: '100%',
   textOverflow: 'ellipsis',
 })
+const StyledLabel = Text.withComponent('label')
 
 type Props = {
   placeholder: string
   name: string
   value: null | string
   disabled?: boolean
-  onChange: (e: Event) => any
-  onBlur: (e: Event) => any
+  onChange: (e: SyntheticEvent<HTMLInputElement>) => any
+  onBlur: (e: SyntheticEvent<HTMLInputElement>) => any
   type?: string
   error?: boolean
   id?: string
@@ -42,7 +42,7 @@ export const Input = ({
       id={id}
       type={type}
       name={name}
-      value={value}
+      value={value || undefined}
       placeholder={placeholder}
       onChange={onChange}
       onBlur={onBlur}
@@ -58,9 +58,9 @@ type LabelProps = {
 }
 export const Label = ({ children, small, ...props }: LabelProps) => (
   <Flex pt={2} px={4}>
-    <Text {...props} as="label" fontWeight="700" fontSize={small ? 12 : 16}>
+    <StyledLabel {...props} fontWeight={700} fontSize={small ? 12 : 16}>
       {children}
-    </Text>
+    </StyledLabel>
   </Flex>
 )
 
@@ -70,8 +70,8 @@ type LabeledInputProps = {
   name: string
   disabled?: boolean
   smallLabel?: boolean
-  onChange: (e: Event) => any
-  onBlur: (e: Event) => any
+  onChange: (e: SyntheticEvent<HTMLInputElement>) => any
+  onBlur: (e: SyntheticEvent<HTMLInputElement>) => any
   error?: boolean
 }
 export const LabeledInput = ({

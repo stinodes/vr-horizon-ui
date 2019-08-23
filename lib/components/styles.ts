@@ -1,9 +1,11 @@
 import { BackgroundColorProperty, ColorProperty } from 'csstype'
 import { tint, shade } from 'polished'
 import { Theme } from '../theme'
+import { CSSObject } from '@emotion/css'
+import { getColor } from '../utils'
 
 const withValidColor = (fn: (color: string) => string) => (
-  color: void | string,
+  color: undefined | string,
 ) => {
   if (!color || color === 'transparent') return color
   return fn(color)
@@ -13,7 +15,7 @@ export const interactiveColor = <Props extends { disabled?: boolean }>(
     props: Props,
   ) => { backgroundColor: BackgroundColorProperty; color: ColorProperty },
 ) => {
-  return (props: Props) => {
+  return (props: Props): CSSObject => {
     const { color, backgroundColor } = fn(props)
     const hover = withValidColor(tint(0.3))
     const active = withValidColor(shade(0.3))
@@ -36,26 +38,23 @@ export const interactiveColor = <Props extends { disabled?: boolean }>(
 
 export const outline = <
   Props extends {
-    borderRadius?: number | ((props: Props) => null | number)
+    outline?: boolean | string
+    borderRadius?: number | ((props: Props) => undefined | number)
     noOutline?: boolean
     theme: Theme
   }
 >({
   borderRadius,
   focus = true,
-  prop,
 }: {
-  borderRadius?: number | ((props: Props) => null | number)
+  borderRadius?: number | ((props: Props) => undefined | number)
   focus?: boolean
-  prop?: string
 } = {}) => {
-  return (props: Props) => {
-    let {
-      theme: { colors },
-    } = props
-    let br: number | null
-    let focusStyle: Object | null
-    let outlineStyle: Object | null
+  return (props: Props): CSSObject => {
+    let { theme } = props
+    let br: number | undefined = undefined
+    let focusStyle: CSSObject | undefined = undefined
+    let outlineStyle: CSSObject | undefined = undefined
     if (typeof borderRadius === 'number') br = borderRadius
     else if (typeof borderRadius === 'function') br = borderRadius(props)
     if (typeof props.borderRadius === 'number') br = props.borderRadius
@@ -69,7 +68,7 @@ export const outline = <
         },
       }
 
-    if (!props.noOutline)
+    if (!props.noOutline) {
       outlineStyle = {
         content: '" "',
         display: 'block',
@@ -80,16 +79,17 @@ export const outline = <
         right: -3,
         borderRadius: br ? br + 3 : 3,
         border: 'transparent 3px solid',
-        borderColor:
-          prop && props[prop]
-            ? typeof props[prop] === 'string'
-              ? colors[props[prop]] || props[prop]
-              : 'Highlight'
-            : 'transparent',
+        borderColor: props.outline
+          ? getColor(
+              typeof props.outline === 'string' ? props.outline : 'Highlight',
+              theme,
+            )
+          : 'transparent',
         transition: 'border-color .2s ease',
         pointerEvents: 'none',
         zIndex: 100,
       }
+    }
 
     return {
       position: 'relative',

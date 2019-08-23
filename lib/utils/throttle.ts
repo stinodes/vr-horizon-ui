@@ -3,7 +3,7 @@ export const throttle = <Args>(
   wait: number = 100,
   immediate: boolean = false,
 ): ((...args: Args[]) => any) => {
-  let timeout = null
+  let timeout: null | NodeJS.Timeout = null
   let initialCall = true
 
   return (...args: Args[]) => {

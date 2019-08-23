@@ -1,7 +1,10 @@
+import { useCallback, useEffect } from 'react'
+import { converge, nthArg } from 'ramda'
+
 export const useOnKeyCodePress = (
   handler: () => any,
   keyCode: number,
-  bound?: boolean = true,
+  bound: boolean = true,
 ) => {
   const closeOnEscPress = useCallback(e => e.keyCode === keyCode && handler(), [
     handler,

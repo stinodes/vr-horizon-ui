@@ -1,35 +1,26 @@
-//@jsx jsx
-import { jsx } from '@emotion/core'
-import { compose, prop, path, split, isEmpty } from 'ramda'
-import React, { ReactNode, Ref, ComponentType, ReactElement } from 'react'
-import { space, width, height } from 'styled-system'
+/** @jsx jsx */
+import { jsx, CSSObject } from '@emotion/core'
+import { isEmpty } from 'ramda'
 import {
-  useColumns,
-  useRows,
-  useSortBy,
-  useFlexLayout,
-  useExpanded,
-  useTable,
-} from 'react-table'
+  Fragment,
+  ReactNode,
+  Ref,
+  ComponentType,
+  ReactElement,
+  useRef,
+  forwardRef,
+} from 'react'
+import { space, width, height, ResponsiveValue } from 'styled-system'
+import { useTable, Column, Row as RowType } from 'react-table'
 import { useSticky } from '../Hooks'
 import { Text, TextProps } from './Text'
 import { Flex } from './Flex'
-import { Icon } from './Icons'
 import { Spinner } from './Spinner'
 import { Button } from './Button'
 import { styled, getColor } from '../utils'
 
-type Column<Data> = {
-  Header: null | string | (() => ReactNode)
-  Cell: (props: TableCellType<Data> & Object) => ReactNode
-  Filter?: (props: Object) => ReactNode
-  id?: string
-  accessor: string | ((props: Data) => any)
-  minWidth?: number
-  maxWidth?: number
-}
 type TableCellType<Data> = {
-  column: Column<Data>
+  column: Column<Data, any>
   getCellProps: () => Object
   render: (name: string, props?: Object) => React.ReactNode
 }
@@ -45,7 +36,10 @@ type NoDataProps = {
   emptyAction?: ReactElement<typeof EmptyAction>
 }
 
-export const TableElement = styled('table')(width, height)
+export const TableElement = styled('table')<{
+  width?: ResponsiveValue<string | number>
+  height?: ResponsiveValue<string | number>
+}>(width, height)
 export const THead = styled('thead')()
 
 const _Header = ({ children, ...props }: { children: React.ReactNode }) => (
@@ -74,12 +68,12 @@ export const HeaderText = styled(Text)(
 
 export const TBody = styled('tbody')()
 
-export const Row = styled('tr')(space, ({ theme: { colors } }) => ({
+export const Row = styled('tr')(space, {
   borderBottom: '1px solid transparent',
   //borderBottomColor: colors.lights[2],
-}))
+})
 
-const _Cell = React.forwardRef(
+const _Cell = forwardRef(
   (
     { children, ...props }: { children: ReactNode },
     ref: Ref<HTMLTableCellElement>,
@@ -106,26 +100,27 @@ export const CellText = styled(Text)<TextProps>(
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     paddingRight: 8,
-  },
-  ({ theme, color, fontWeight }) => ({
-    fontWeight,
-    color: getColor(color || 'darks.2', theme),
-  }),
+  } as CSSObject,
+  ({ theme, color, fontWeight }) =>
+    ({
+      fontWeight,
+      color: getColor(color || 'darks.2', theme),
+    } as CSSObject),
 )
 
-type ExtendedRowProps<Data> = {
-  row: TableRowType<any>
+type ExtendedRowProps = {
+  row: RowType
   component?: ComponentType<any>
-  render?: (props: { row: TableRowType<Data> }) => ReactNode
+  render?: (props: { row: RowType }) => ReactNode
   children?: ReactNode
 }
-export const ExtendedRow = <Data extends {}>({
+export const ExtendedRow = ({
   row,
   component: Comp,
   render,
   children,
   ...props
-}: ExtendedRowProps<Data>) => {
+}: ExtendedRowProps) => {
   let ch = children
   if (render) ch = render({ row, ...props })
   if (Comp) ch = <Comp {...props} row={row} />
@@ -140,12 +135,7 @@ export const ExtendedRow = <Data extends {}>({
   )
 }
 
-export const HoverRow = <Data extends {}>({
-  row,
-  ...props
-}: {
-  row: TableRowType<Data>
-}) => (
+export const HoverRow = ({ row, ...props }: { row: RowType }) => (
   <Row
     {...props}
     css={{
@@ -174,9 +164,9 @@ type Props<Data> = {
   headerStyle?: {}
   disableSticky?: boolean
   stickyOffset?: number
-  columns: Column<Data>[]
-  rowComponent?: ComponentType<{ row: TableRowType<Data> } & {}>
-  renderRow?: (props: TableRowType<Data>) => ReactNode
+  columns: Column<Data, any>[]
+  rowComponent?: ComponentType<{ row: RowType } & {}>
+  renderRow?: (props: RowType) => ReactNode
 } & NoDataProps
 
 export const EmptyAction = (props: {
@@ -201,21 +191,13 @@ export const EmptyTable = <Data extends {}>({
   headerStyle = {},
   ...props
 }: Props<Data>) => {
-  const table = useTable(
-    { data, columns, ...props },
-    useColumns,
-    useRows,
-    useSortBy,
-    useFlexLayout,
-    useExpanded,
-  )
-
-  const stickyRef = React.useRef()
+  const table = useTable({ data, columns, ...props })
+  const stickyRef = useRef<null | HTMLTableSectionElement>(null)
   const { stickyStyles } = useSticky({
     stickyRef,
   })
 
-  const renderRow = row => {
+  const renderRow = (row: RowType) => {
     table.prepareRow(row)
 
     if (customRenderRow) {
@@ -228,10 +210,10 @@ export const EmptyTable = <Data extends {}>({
   }
 
   return (
-    <>
+    <Fragment>
       <TableElement {...table.getTableProps()} width={1}>
         <THead ref={stickyRef} css={headerStyle}>
-          <Row {...table.headerGroups[0].getRowProps()} {...rowProps}>
+          <Row {...table.headerGroups[0].getHeaderGroupProps()} {...rowProps}>
             {table.headers.map(header => (
               <TableHeader {...header.getHeaderProps()}>
                 {header.render('Header')}
@@ -247,7 +229,7 @@ export const EmptyTable = <Data extends {}>({
               flexDirection="column"
               alignItems="center"
               justifyContent="center">
-              <Text css={{ paddingBottom: 16 }} size="small" color="darks.3">
+              <Text css={{ paddingBottom: 16 }} fontSize={16} color="darks.3">
                 {emptyLabel}
               </Text>
               {emptyAction}
@@ -262,10 +244,18 @@ export const EmptyTable = <Data extends {}>({
         </TBody>
       </TableElement>
       {!disableSticky && stickyStyles && (
-        <div css={{ ...stickyStyles, top: stickyStyles.top + stickyOffset }}>
+        <div
+          css={
+            {
+              ...stickyStyles,
+              top: stickyStyles.top + stickyOffset,
+            } as CSSObject
+          }>
           <TableElement width={1}>
             <THead css={headerStyle}>
-              <Row {...table.headerGroups[0].getRowProps()} {...rowProps}>
+              <Row
+                {...table.headerGroups[0].getHeaderGroupProps()}
+                {...rowProps}>
                 {table.headers.map(header => (
                   <TableHeader {...header.getHeaderProps()}>
                     {header.render('Header')}
@@ -277,7 +267,7 @@ export const EmptyTable = <Data extends {}>({
           </TableElement>
         </div>
       )}
-    </>
+    </Fragment>
   )
 }
 

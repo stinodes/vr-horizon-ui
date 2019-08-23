@@ -28,7 +28,7 @@ export const useIsInViewport = ({
 
   const onIntersectChange = useCallback(
     entries => {
-      setIsInViewport(path([0, 'isIntersecting'], entries))
+      setIsInViewport(!!path([0, 'isIntersecting'], entries))
     },
     [targetRef],
   )

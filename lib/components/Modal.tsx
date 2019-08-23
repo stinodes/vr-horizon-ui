@@ -6,11 +6,12 @@ import { Heading } from './Text'
 import { FloatingButton } from './Button'
 import { Icon } from './Icons'
 import { useOnEscPress } from '../hooks'
-import X from './Icons/X'
+import X from './Icons/feather/x.svg'
 import { styled, getColor } from '../utils'
 import { Card } from './Card'
 import { Flex } from './Flex'
 
+const H6 = Heading.withComponent('h6')
 const Overlay = styled(animated.div)({
   zIndex: 110,
   position: 'fixed',
@@ -146,15 +147,14 @@ export const Modal = ({
                     bg="white"
                     {...props}>
                     <ModalHeader>
-                      <Heading
+                      <H6
                         css={{
                           overflow: 'hidden',
                           whiteSpace: 'nowrap',
                           textOverflow: 'ellipsis',
-                        }}
-                        tier="6">
+                        }}>
                         {title}
-                      </Heading>
+                      </H6>
                       <Flex alignItems="center">
                         <FloatingButton
                           bg="white"
