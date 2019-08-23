@@ -2522,11 +2522,6 @@ react-spring@^8.0.20:
     "@babel/runtime" "^7.3.1"
     prop-types "^15.5.8"
 
-react-table@^7.0.0-alpha.26:
-  version "7.0.0-alpha.26"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-alpha.26.tgz#b131def906c3369d00001b2d7132279785c22942"
-  integrity sha512-3Gj+PI0+2SD6K7KSBOj+RzaYETNjPt7zKKxYEBUIMWVvyGbldhtSgNZEGBvzTbQ/dG8d1xXKhyu5/ulh4spfhg==
-
 react-transition-group@^2.2.1:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"

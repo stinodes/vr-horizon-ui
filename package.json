@@ -22,7 +22,6 @@
     "ramda": "^0.26.1",
     "react-select": "^2.4.3",
     "react-spring": "^8.0.20",
-    "react-table": "^7.0.0-alpha.26",
     "styled-system": "^5.1.0",
     "typescript": "^3.5.2"
   },

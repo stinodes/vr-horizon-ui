@@ -4,13 +4,14 @@
 /node_modules
 /.pnp
 .pnp.js
-.rpt2_cache
 
 # testing
 /coverage
 
 # production
+.rpt2_cache
 /build
+example/src/ui
 dist
 
 # misc

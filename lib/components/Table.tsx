@@ -11,7 +11,6 @@ import {
   forwardRef,
 } from 'react'
 import { space, width, height, ResponsiveValue } from 'styled-system'
-import { useTable, Column, Row as RowType } from 'react-table'
 import { useSticky } from '../Hooks'
 import { Text, TextProps } from './Text'
 import { Flex } from './Flex'
@@ -19,6 +18,14 @@ import { Spinner } from './Spinner'
 import { Button } from './Button'
 import { styled, getColor } from '../utils'
 
+type Column<Data, Value> = {
+  Cell: (props: { row: TableRowType<Data>; value: Value }) => ReactNode
+  Header: (props: { row: TableRowType<Data> }) => ReactNode
+  id?: string
+  accessor?: (data: Data) => Value
+  minWidth?: number
+  maxWidth?: number
+}
 type TableCellType<Data> = {
   column: Column<Data, any>
   getCellProps: () => Object
@@ -31,12 +38,7 @@ export type TableRowType<Data> = {
   cells: TableCellType<Data>[]
 }
 
-type NoDataProps = {
-  emptyLabel: string
-  emptyAction?: ReactElement<typeof EmptyAction>
-}
-
-export const TableElement = styled('table')<{
+export const Table = styled('table')<{
   width?: ResponsiveValue<string | number>
   height?: ResponsiveValue<string | number>
 }>(width, height)
@@ -108,19 +110,19 @@ export const CellText = styled(Text)<TextProps>(
     } as CSSObject),
 )
 
-type ExtendedRowProps = {
-  row: RowType
+type ExtendedRowProps<Data extends {}> = {
+  row: TableRowType<Data>
   component?: ComponentType<any>
-  render?: (props: { row: RowType }) => ReactNode
+  render?: (props: { row: TableRowType<Data> }) => ReactNode
   children?: ReactNode
 }
-export const ExtendedRow = ({
+export const ExtendedRow = <Table extends {}>({
   row,
   component: Comp,
   render,
   children,
   ...props
-}: ExtendedRowProps) => {
+}: ExtendedRowProps<Table>) => {
   let ch = children
   if (render) ch = render({ row, ...props })
   if (Comp) ch = <Comp {...props} row={row} />
@@ -135,7 +137,12 @@ export const ExtendedRow = ({
   )
 }
 
-export const HoverRow = ({ row, ...props }: { row: RowType }) => (
+export const HoverRow = <Data extends {}>({
+  row,
+  ...props
+}: {
+  row: TableRowType<Data>
+}) => (
   <Row
     {...props}
     css={{
@@ -153,124 +160,4 @@ export const HoverRow = ({ row, ...props }: { row: RowType }) => (
       <Cell {...cell.getCellProps()}>{cell.render('Cell')}</Cell>
     ))}
   </Row>
-)
-
-type Props<Data> = {
-  data: Data[]
-  rowProps?: Object
-  loading: boolean
-  getId?: (data: Data) => number | string
-  leaveDelay?: number
-  headerStyle?: {}
-  disableSticky?: boolean
-  stickyOffset?: number
-  columns: Column<Data, any>[]
-  rowComponent?: ComponentType<{ row: RowType } & {}>
-  renderRow?: (props: RowType) => ReactNode
-} & NoDataProps
-
-export const EmptyAction = (props: {
-  children: ReactNode
-  onClick?: () => any
-  to?: string
-}) => <Button color="primary" {...props} />
-
-export const EmptyTable = <Data extends {}>({
-  data,
-  loading,
-  getId,
-  leaveDelay = 0,
-  emptyLabel,
-  emptyAction,
-  rowProps,
-  columns,
-  rowComponent = ExtendedRow,
-  renderRow: customRenderRow,
-  disableSticky,
-  stickyOffset = 0,
-  headerStyle = {},
-  ...props
-}: Props<Data>) => {
-  const table = useTable({ data, columns, ...props })
-  const stickyRef = useRef<null | HTMLTableSectionElement>(null)
-  const { stickyStyles } = useSticky({
-    stickyRef,
-  })
-
-  const renderRow = (row: RowType) => {
-    table.prepareRow(row)
-
-    if (customRenderRow) {
-      return customRenderRow(row)
-    }
-
-    const Row = rowComponent
-    const arg = { ...row.getRowProps(), ...rowProps }
-    return <Row {...arg} key={row.index} row={row} />
-  }
-
-  return (
-    <Fragment>
-      <TableElement {...table.getTableProps()} width={1}>
-        <THead ref={stickyRef} css={headerStyle}>
-          <Row {...table.headerGroups[0].getHeaderGroupProps()} {...rowProps}>
-            {table.headers.map(header => (
-              <TableHeader {...header.getHeaderProps()}>
-                {header.render('Header')}
-                {header.render('Filter')}
-              </TableHeader>
-            ))}
-          </Row>
-        </THead>
-        <TBody>
-          {!loading && isEmpty(table.rows) && (
-            <Flex
-              py={3}
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center">
-              <Text css={{ paddingBottom: 16 }} fontSize={16} color="darks.3">
-                {emptyLabel}
-              </Text>
-              {emptyAction}
-            </Flex>
-          )}
-          {table.rows.map(row => renderRow(row))}
-          {loading && (
-            <Flex justifyContent="center">
-              <Spinner color="blues.2" />
-            </Flex>
-          )}
-        </TBody>
-      </TableElement>
-      {!disableSticky && stickyStyles && (
-        <div
-          css={
-            {
-              ...stickyStyles,
-              top: stickyStyles.top + stickyOffset,
-            } as CSSObject
-          }>
-          <TableElement width={1}>
-            <THead css={headerStyle}>
-              <Row
-                {...table.headerGroups[0].getHeaderGroupProps()}
-                {...rowProps}>
-                {table.headers.map(header => (
-                  <TableHeader {...header.getHeaderProps()}>
-                    {header.render('Header')}
-                    {header.render('Filter')}
-                  </TableHeader>
-                ))}
-              </Row>
-            </THead>
-          </TableElement>
-        </div>
-      )}
-    </Fragment>
-  )
-}
-
-export const Table = <Data extends {}>(props: Props<Data>) => (
-  <EmptyTable {...props} rowComponent={ExtendedRow} />
 )
