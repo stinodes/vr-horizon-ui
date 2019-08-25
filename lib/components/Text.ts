@@ -2,7 +2,7 @@ import { color, typography, TypographyProps } from 'styled-system'
 import { styled, getColor } from '../utils'
 
 export type TextProps = TypographyProps & { color?: string }
-export const Text = styled('p')<TextProps>(
+const Text = styled('p')<TextProps>(
   {
     fontSize: 16,
     lineHeight: 1.3,
@@ -15,8 +15,9 @@ export const Text = styled('p')<TextProps>(
   color,
   typography,
 )
+Text.displayName = 'Text'
 
-export const Heading = styled('h1')<TextProps>(
+const Heading = styled('h1')<TextProps>(
   {
     fontFamily: 'Montserrat',
     fontWeight: 700,
@@ -28,3 +29,6 @@ export const Heading = styled('h1')<TextProps>(
   color,
   typography,
 )
+Heading.displayName = 'Heading'
+
+export { Text, Heading }

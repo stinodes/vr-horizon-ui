@@ -1,4 +1,4 @@
-import { styled, getColor } from '../utils'
+import { styled, getColor, getBoxShadow } from '../utils'
 import { Flex, FlexProps } from './Flex'
 import { transparentize } from 'polished'
 import { CSSObject } from '@emotion/css'
@@ -9,7 +9,7 @@ export type CardProps = FlexProps & {
   borderRadius?: number | string
   shadowPosition?: 'top' | 'bottom'
 }
-export const Card = styled(Flex)<CardProps>(
+const Card = styled(Flex)<CardProps>(
   { borderRadius: 3 },
   ({ theme, borderRadius, border, shadow, shadowPosition }) =>
     ({
@@ -23,9 +23,10 @@ export const Card = styled(Flex)<CardProps>(
         shadow &&
         (typeof shadow === 'string'
           ? shadow
-          : `${transparentize(0.9, getColor('darks.2', theme))} 0 ${
-              shadowPosition === 'top' ? -8 : 8
-            }px 24px`),
+          : getBoxShadow(undefined, shadowPosition, theme)),
       borderRadius,
     } as CSSObject),
 )
+Card.displayName = 'Card'
+
+export { Card }

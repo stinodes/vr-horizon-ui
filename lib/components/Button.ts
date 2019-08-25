@@ -54,6 +54,7 @@ const Base = styled(Flex.withComponent('button'))<BaseProps>(
 )
 
 const BaseWithOutline = styled(Base)<BaseProps>(outline())
+BaseWithOutline.displayName = 'FlexButton'
 
 type SizeProps = { size?: 'regular' | 'small' | 'circle' }
 const button = ({ size }: SizeProps) => {
@@ -90,6 +91,7 @@ const StyledButton = styled(Base)<StyledProps>(
   }),
   button,
 )
+StyledButton.displayName = 'Button'
 
 const floatingButton = ({ size = 64 }: { size?: number }) => ({
   width: size,
@@ -106,6 +108,7 @@ const StyledFloatingButton = styled(Base)<BaseProps & { size?: number }>(
   }),
   floatingButton,
 )
+StyledFloatingButton.displayName = 'FloatingButton'
 
 export const FlexButton = BaseWithOutline
 export const Button = StyledButton

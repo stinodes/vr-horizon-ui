@@ -21,6 +21,7 @@ export const baseTheme = {
     yellows,
     darks,
     lights,
+    primaries: blues,
     text: darks[2],
     error: reds[2],
     fadedError: reds[4],
@@ -35,22 +36,7 @@ export const baseTheme = {
   space: [0, 8, 16, 24, 32, 48, 64, 128, 256, 512],
 }
 
-type ThemeProviderProps = {
-  children: ReactNode
-  theme?: {
-    colors?: { [color: string]: Array<string> | string }
-    breakpoints?:
-      | {
-          [breakpoint: string]: string
-          [breakpoint: number]: string
-        }
-      | Array<string | number>
-    space?: { [space: string]: number; [space: number]: number } | Array<number>
-  }
-}
-export const ThemeProvider = ({ theme = {}, ...props }: ThemeProviderProps) => {
-  const mergedTheme = useMemo(() => mergeDeepRight(baseTheme, theme), [theme])
-  return <TP {...props} theme={mergedTheme} />
-}
+export const createTheme = (theme: ThemeType) =>
+  mergeDeepRight(baseTheme, theme)
 
 export type Theme = ThemeType & typeof baseTheme
