@@ -1,7 +1,13 @@
-import { color, typography, TypographyProps } from 'styled-system'
+import {
+  color,
+  typography,
+  TypographyProps,
+  SpaceProps,
+  space,
+} from 'styled-system'
 import { styled, getColor } from '../utils'
 
-export type TextProps = TypographyProps & { color?: string }
+export type TextProps = TypographyProps & SpaceProps & { color?: string }
 const Text = styled('p')<TextProps>(
   {
     fontSize: 16,
@@ -12,6 +18,7 @@ const Text = styled('p')<TextProps>(
     fontFamily: theme.fontFamily,
     color: getColor('text', theme),
   }),
+  space,
   color,
   typography,
 )
@@ -26,6 +33,7 @@ const Heading = styled('h1')<TextProps>(
     margin: 0,
   },
   ({ theme }) => ({ color: getColor('text', theme) }),
+  space,
   color,
   typography,
 )

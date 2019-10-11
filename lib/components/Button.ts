@@ -20,7 +20,7 @@ type ColorProps = { bg?: string; color?: string }
 type ShadowProps = {
   bg?: string
   raised?: boolean
-  important?: boolean
+  glow?: boolean
 }
 type DisabledProps = { disabled?: boolean }
 
@@ -28,12 +28,11 @@ const shadows = ({
   theme,
   bg = 'primary',
   raised,
-  important,
+  glow,
 }: ShadowProps & { theme: Theme }) => {
   const shadows = []
   if (raised) shadows.push('rgba(0, 0, 0, .2) 0 8px 16px')
-  if (important)
-    shadows.push(`${transparentize(0.5, getColor(bg, theme))} 0 0 24px`)
+  if (glow) shadows.push(`${transparentize(0.5, getColor(bg, theme))} 0 0 24px`)
   return {
     boxShadow: join(',', shadows),
   }
@@ -61,7 +60,7 @@ const button = ({ size }: SizeProps) => {
   if (size === 'small') {
     return {
       padding: '8px 16px',
-      fontSize: 12,
+      fontSize: 14,
       borderRadius: 2,
     }
   } else if (size === 'circle') {
