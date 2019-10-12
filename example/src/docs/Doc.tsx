@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import toJSXString from 'react-element-to-jsx-string'
-import { LayoutProps, FlexboxProps, SpaceProps } from 'styled-system'
+import { LayoutProps, SpaceProps } from 'styled-system'
 import { transparentize } from 'polished'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism'

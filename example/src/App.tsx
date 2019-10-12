@@ -7,7 +7,7 @@ import { routes } from './docs/routes'
 import { Suspense } from 'react'
 import { getColor } from './ui'
 
-const Nav = styled(MaxWidthBox)(
+const Nav = styled(Flex)(
   {
     position: 'fixed',
     top: 0,
@@ -30,10 +30,12 @@ function App() {
   return (
     <Router routes={routes}>
       <Flex flex={1} minHeight="100vh" bg="lights.3" flexDirection="column">
-        <Nav px={3}>
-          <Link css={{ textDecoration: 'none' }} href="/">
-            <Heading color="white">vr-horizon-ui</Heading>
-          </Link>
+        <Nav>
+          <MaxWidthBox>
+            <Link css={{ textDecoration: 'none' }} href="/">
+              <Heading color="white">vr-horizon-ui</Heading>
+            </Link>
+          </MaxWidthBox>
         </Nav>
         <Flex flexDirection="column" flex={1} pt={80}>
           <Suspense

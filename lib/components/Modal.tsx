@@ -1,17 +1,17 @@
-// @jsx jsx
+/** @jsx jsx */
 import { jsx } from '@emotion/core'
-import React, { useRef, useState, useEffect, ReactNode } from 'react'
+import { Fragment, useRef, useState, useEffect, ReactNode } from 'react'
 import { useTransition, animated } from 'react-spring'
 import { Heading } from './Text'
-import { FloatingButton } from './Button'
+import { FloatingButton, FlexButton } from './Button'
 import { Icon } from './Icons'
 import { useOnEscPress } from '../hooks'
 import X from './Icons/feather/x.svg'
 import { styled, getColor } from '../utils'
 import { Card } from './Card'
 import { Flex } from './Flex'
+import { LayoutProps, SpaceProps } from 'styled-system'
 
-const H6 = Heading.withComponent('h6')
 const Overlay = styled(animated.div)({
   zIndex: 110,
   position: 'fixed',
@@ -25,152 +25,103 @@ const Overlay = styled(animated.div)({
   overflow: 'hidden',
   backgroundColor: 'rgba(0, 0, 0, .24)',
 })
-const ModalWindowAnimator = styled(animated.div)<{ isAnimating?: boolean }>(
-  {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    maxHeight: '100%',
-    display: 'flex',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ({ isAnimating }) => ({ overflowY: isAnimating ? 'hidden' : 'scroll' }),
-)
-const ModalWindow = styled(Card.withComponent(animated.div))({
-  width: '95%',
+const ModalWindowAnimator = styled(animated.div)({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  maxHeight: '100%',
+  display: 'flex',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+})
+const ModalWindow = styled(Card.withComponent(animated.div))<{ bg?: string }>({
   maxWidth: 672,
+  width: ' 95vw',
   maxHeight: '90vh',
   position: 'relative',
   flexDirection: 'column',
-  overflow: 'hidden',
-})
-const ModalHeader = styled(Flex)({
-  flexShrink: 0,
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '0 32px',
-  height: 72,
+  overflow: 'hidden auto',
 })
 
-export const ModalFooter = styled(Flex)(
-  {
-    height: 72,
-    flexShrink: 0,
-    padding: '0 16px',
-    borderTop: '1px solid transparent',
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-  ({ theme }) => ({
-    borderTopColor: getColor('lights.2', theme),
-  }),
-)
-
-type ModalState<Data> = {
-  data: null | Data
+type ModalState = {
   visible: boolean
-  show: (data: Data) => void
+  show: () => void
   hide: () => void
   toggle: () => void
 }
-export const useModalState = <Data extends any>(): ModalState<Data> => {
+export const useModal = (): ModalState => {
   const [visible, setVisible] = useState(false)
-  const dataRef = useRef<null | Data>(null)
 
   return {
-    data: dataRef.current,
     visible,
-    show: (data: Data) => {
-      dataRef.current = data
-      setVisible(true)
-    },
+    show: () => setVisible(true),
     hide: () => setVisible(false),
-    toggle: () => setVisible(!visible),
+    toggle: () => setVisible(visible => !visible),
   }
 }
 
 export const useModalTransitions = (visible: boolean) => {
-  const [isAnimating, setAnimating] = useState(false)
-  useEffect(() => {
-    visible && !isAnimating && setAnimating(true)
-  }, [visible])
-
   const overlay = useTransition(visible, null, {
-    opacity: 0,
+    from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
   })
   const modal = useTransition(visible, null, {
-    transform: 'translateY(100%)',
+    from: { transform: 'translateY(100%)' },
     enter: { transform: 'translateY(0%)' },
     leave: { transform: 'translateY(100%)' },
-    onRest: () => isAnimating && setAnimating(false),
   })
 
-  return { overlay, modal, isAnimating }
+  return { overlay, modal }
 }
 
 type Props = {
   visible: boolean
   onRequestClose: () => any
-  title: string
   children: ReactNode
-}
+} & LayoutProps &
+  SpaceProps
 export const Modal = ({
   visible,
-  title,
   onRequestClose,
   children,
   ...props
 }: Props) => {
-  useOnEscPress(onRequestClose, visible)
-
   const transition = useModalTransitions(visible)
 
-  return transition.overlay.map(
-    overlay =>
-      overlay.item && (
-        <Overlay key="overlay" onClick={onRequestClose} style={overlay.props}>
-          {transition.modal.map(
-            modal =>
-              modal.item && (
-                <ModalWindowAnimator
-                  key="modal-animator"
-                  style={modal.props}
-                  isAnimating={transition.isAnimating}>
-                  <ModalWindow
-                    onClick={e => e.stopPropagation()}
-                    bg="white"
-                    {...props}>
-                    <ModalHeader>
-                      <H6
-                        css={{
-                          overflow: 'hidden',
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis',
-                        }}>
-                        {title}
-                      </H6>
-                      <Flex alignItems="center">
-                        <FloatingButton
-                          bg="white"
-                          width={32}
-                          height={32}
-                          onClick={onRequestClose}>
-                          <Icon icon={X} size={24} color="primary" />
-                        </FloatingButton>
-                      </Flex>
-                    </ModalHeader>
-                    {children}
-                  </ModalWindow>
-                </ModalWindowAnimator>
-              ),
-          )}
-        </Overlay>
-      ),
+  return (
+    <Fragment>
+      {transition.overlay.map(
+        overlay =>
+          overlay.item && (
+            <Overlay onClick={onRequestClose} style={overlay.props}>
+              {transition.modal.map(
+                modal =>
+                  modal.item && (
+                    <ModalWindowAnimator style={modal.props}>
+                      <ModalWindow
+                        onClick={e => e.stopPropagation()}
+                        bg="white"
+                        {...props}>
+                        {children}
+                        {onRequestClose && (
+                          <FlexButton
+                            css={{ position: 'absolute', top: 8, right: 8 }}
+                            bg="transparent"
+                            onClick={onRequestClose}>
+                            <Icon icon={X} size={24} color="darks.4" />
+                          </FlexButton>
+                        )}
+                      </ModalWindow>
+                    </ModalWindowAnimator>
+                  ),
+              )}
+            </Overlay>
+          ),
+      )}
+    </Fragment>
   )
 }

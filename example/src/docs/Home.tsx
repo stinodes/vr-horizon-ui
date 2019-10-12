@@ -15,6 +15,7 @@ import {
 } from '../ui'
 import { styled } from '../utils'
 import { Link } from '../components/Link'
+import { Accent } from '../components/Accent'
 
 const colors = [
   'blues',
@@ -26,17 +27,12 @@ const colors = [
   'lights',
 ]
 const Image = Box.withComponent('img')
-const Accent = styled(Text.withComponent('span'))(({ theme }) => ({
-  color: getColor('primaries.1', theme),
-  fontWeight: 700,
-}))
 const Color = styled('span')(color)
-const A = Accent.withComponent('a')
 
 type Props = {}
 const HomeDocs = (props: Props) => (
   <Flex flexDirection="column">
-    <MaxWidthBox py={3} minHeight="80vh">
+    <MaxWidthBox py={3} height="80vh" maxHeight={596}>
       <Flex
         pt={96}
         flexDirection="column"
@@ -53,42 +49,44 @@ const HomeDocs = (props: Props) => (
         </Card>
       </Flex>
     </MaxWidthBox>
-    <MaxWidthBox py={5} bg="lights.2">
-      <Flex pb={3}>
-        <Heading>Theme</Heading>
-      </Flex>
-      <Flex flexDirection="column">
-        <Flex flexDirection="column" width={{ sm: 1, md: 0.7, lg: 0.5 }}>
-          <Text mb={1} textAlign="justify">
-            This component-set uses <Accent>emotion</Accent> to style its
-            components. Component-props are mapped to styles using{' '}
-            <Accent>styled-system</Accent>.
-          </Text>
-          <Text mb={1} textAlign="justify">
-            Emotion has <Accent>theme</Accent>-support. A lot of the styling
-            comes from this theme. These configurable styles include{' '}
-            <Accent>colors</Accent>, <Accent>breakpoints</Accent>,{' '}
-            <Accent>spaces</Accent> and <Accent>font-size</Accent>.
-          </Text>
-          <Text mb={1} mt={3}>
-            By default, the theme contains the following colors:
-            <br />
-            {colors.map(color => (
-              <Fragment>
-                <Text fontWeight={700} mt={1} textAlign="justify">
-                  {repeat(null, 5).map((_, i) => (
-                    <Color color={`${color}.${i}`}>
-                      {color}.{i}
-                      {'   '}
-                    </Color>
-                  ))}
-                </Text>
-              </Fragment>
-            ))}
-          </Text>
+    <Flex bg="lights.2">
+      <MaxWidthBox py={5}>
+        <Flex pb={3}>
+          <Heading>Theme</Heading>
         </Flex>
-      </Flex>
-    </MaxWidthBox>
+        <Flex flexDirection="column">
+          <Flex flexDirection="column" width={{ sm: 1, md: 0.7, lg: 0.5 }}>
+            <Text mb={1} textAlign="justify">
+              This component-set uses <Accent>emotion</Accent> to style its
+              components. Component-props are mapped to styles using{' '}
+              <Accent>styled-system</Accent>.
+            </Text>
+            <Text mb={1} textAlign="justify">
+              Emotion has <Accent>theme</Accent>-support. A lot of the styling
+              comes from this theme. These configurable styles include{' '}
+              <Accent>colors</Accent>, <Accent>breakpoints</Accent>,{' '}
+              <Accent>spaces</Accent> and <Accent>font-size</Accent>.
+            </Text>
+            <Text mb={1} mt={3}>
+              By default, the theme contains the following colors:
+              <br />
+              {colors.map(color => (
+                <Fragment>
+                  <Text fontWeight={700} mt={1} textAlign="justify">
+                    {repeat(null, 5).map((_, i) => (
+                      <Color color={`${color}.${i}`}>
+                        {color}.{i}
+                        {'   '}
+                      </Color>
+                    ))}
+                  </Text>
+                </Fragment>
+              ))}
+            </Text>
+          </Flex>
+        </Flex>
+      </MaxWidthBox>
+    </Flex>
     <MaxWidthBox py={5}>
       <Flex pb={3} alignItems="center">
         <Heading>styled-system</Heading>
@@ -97,9 +95,9 @@ const HomeDocs = (props: Props) => (
         <Flex flexDirection="column" width={{ sm: 1, md: 0.7, lg: 0.5 }}>
           <Text textAlign="justify">
             As these components make heavy use of{' '}
-            <A target="_blank" href="https://styled-system.com/">
+            <Link target="_blank" href="https://styled-system.com/">
               styled-system
-            </A>
+            </Link>
             , if you aren't already, get familiar with the props it typically
             supports. Components will generally support a set of these
             properties, on top of custom properties.
@@ -122,10 +120,16 @@ const HomeDocs = (props: Props) => (
       </Flex>
       <Grid>
         <Col width={1 / 3}>
-          <Link href="button">{'<Button/>'}</Link>
+          <Link href="containers">Containers</Link>
         </Col>
         <Col width={1 / 3}>
-          <Link href="text">{'<Text/>'}</Link>
+          <Link href="text">Text</Link>
+        </Col>
+        <Col width={1 / 3}>
+          <Link href="button">Buttons</Link>
+        </Col>
+        <Col width={1 / 3}>
+          <Link href="modal">Modals</Link>
         </Col>
       </Grid>
     </MaxWidthBox>

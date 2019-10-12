@@ -1,15 +1,17 @@
 import React from 'react'
 import { route } from 'navi'
-import { Heading, Flex, Text } from '../ui'
+import { Heading, Flex, Text, MaxWidthBox } from '../ui'
 import { ExampleDocumentation } from './Doc'
 
 type Props = {}
 const TextDocs = (props: Props) => {
   return (
     <Flex flexDirection="column">
-      <Flex p={3}>
-        <Heading>{'<Text/>'}</Heading>
-      </Flex>
+      <MaxWidthBox>
+        <Flex py={3}>
+          <Heading>{'<Text/>'}</Heading>
+        </Flex>
+      </MaxWidthBox>
       <ExampleDocumentation title="Default" px={3}>
         <Text>Lorem Ipsum</Text>
       </ExampleDocumentation>

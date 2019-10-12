@@ -6,3 +6,4 @@ export type BoxProps = SpaceProps & {
   bg?: string
 } & LayoutProps
 export const Box = styled('div')<BoxProps>(layout, space, color)
+Box.displayName = 'Box'

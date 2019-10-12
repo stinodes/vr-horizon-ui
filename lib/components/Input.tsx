@@ -15,7 +15,7 @@ export const BaseInput = styled(Text.withComponent('input'))<TextProps>({
 const StyledLabel = Text.withComponent('label')
 
 type Props = {
-  placeholder: string
+  placeholder?: string
   name: string
   value: null | string
   disabled?: boolean

@@ -1,15 +1,17 @@
 import React from 'react'
 import { route } from 'navi'
-import { Flex, Button } from '../ui'
+import { Flex, Button, MaxWidthBox } from '../ui'
 import { ExampleDocumentation } from './Doc'
 import { Heading } from '../ui'
 
 type Props = {}
 const ButtonDocs = (props: Props) => (
   <Flex flexDirection="column">
-    <Flex p={3} bg="white">
-      <Heading>{'<Button/>'}</Heading>
-    </Flex>
+    <MaxWidthBox>
+      <Flex py={3} bg="white">
+        <Heading>{'<Button/>'}</Heading>
+      </Flex>
+    </MaxWidthBox>
     <ExampleDocumentation first center title="Regular">
       <Button onClick={() => alert('Click!')} bg="primaries.2" color="white">
         Click Me!
