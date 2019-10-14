@@ -37,14 +37,43 @@ const ModalWindowAnimator = styled(animated.div)({
   justifyContent: 'center',
   alignItems: 'center',
 })
-const ModalWindow = styled(Card.withComponent(animated.div))<{ bg?: string }>({
-  maxWidth: 672,
-  width: ' 95vw',
-  maxHeight: '90vh',
-  position: 'relative',
+const ModalWindow = styled(Card.withComponent(animated.div))<{
+  small?: boolean
+  bg?: string
+}>(
+  {
+    maxWidth: 672,
+    maxHeight: '90vh',
+    position: 'relative',
+    flexDirection: 'column',
+    overflow: 'hidden auto',
+  },
+  ({ small }) => ({
+    width: small ? 672 * 0.5 : '95vw',
+  }),
+)
+export const ModalHeader = styled(Flex.withComponent(Heading))(({ theme }) => ({
+  height: 72,
+  borderBottom: `1px ${getColor('lights.1', theme)} solid`,
+  alignItems: 'center',
+  padding: '0 24px',
+  fontSize: 20,
+}))
+ModalHeader.displayName = 'ModalHeader'
+export const ModalFooter = styled(Flex)(({ theme }) => ({
+  height: 72,
+  borderTop: `1px ${getColor('lights.1', theme)} solid`,
+  alignItems: 'center',
+  padding: '0 24px',
+}))
+ModalFooter.displayName = 'ModalFooter'
+export const ModalBody = styled(Flex)({
+  flex: 1,
   flexDirection: 'column',
-  overflow: 'hidden auto',
+  overflowY: 'auto',
+  padding: 24,
 })
+ModalBody.displayName = 'ModalBody'
 
 type ModalState = {
   visible: boolean
@@ -80,7 +109,8 @@ export const useModalTransitions = (visible: boolean) => {
 
 type Props = {
   visible: boolean
-  onRequestClose: () => any
+  small?: boolean
+  onRequestClose?: () => any
   children: ReactNode
 } & LayoutProps &
   SpaceProps
