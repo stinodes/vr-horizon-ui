@@ -38,63 +38,55 @@ export const interactiveColor = <Props extends { disabled?: boolean }>(
 
 export const outline = <
   Props extends {
-    outline?: boolean | string
-    borderRadius?: number | ((props: Props) => undefined | number)
-    noOutline?: boolean
+    show?: boolean
+    color?: string
+    borderRadius?: number
     theme: Theme
   }
 >({
   borderRadius,
   focus = true,
 }: {
-  borderRadius?: number | ((props: Props) => undefined | number)
+  borderRadius?: number | ((props: Props) => number)
   focus?: boolean
 } = {}) => {
   return (props: Props): CSSObject => {
-    let { theme } = props
+    const { theme, color, show } = props
     let br: number | undefined = undefined
-    let focusStyle: CSSObject | undefined = undefined
-    let outlineStyle: CSSObject | undefined = undefined
     if (typeof borderRadius === 'number') br = borderRadius
-    else if (typeof borderRadius === 'function') br = borderRadius(props)
+    if (typeof borderRadius === 'function') br = borderRadius(props)
     if (typeof props.borderRadius === 'number') br = props.borderRadius
-    else if (props.borderRadius && typeof props.borderRadius === 'function')
-      br = props.borderRadius(props)
 
-    if (focus)
-      focusStyle = {
-        '::before': {
-          borderColor: 'Highlight',
-        },
-      }
+    const focusStyle: CSSObject = focus
+      ? {
+          '::before': {
+            borderColor: getColor(color || 'primaries.4', theme),
+          },
+        }
+      : {}
 
-    if (!props.noOutline) {
-      outlineStyle = {
-        content: '" "',
-        display: 'block',
-        position: 'absolute',
-        top: -3,
-        bottom: -3,
-        left: -3,
-        right: -3,
-        borderRadius: br ? br + 3 : 3,
-        border: 'transparent 3px solid',
-        borderColor: props.outline
-          ? getColor(
-              typeof props.outline === 'string' ? props.outline : 'Highlight',
-              theme,
-            )
-          : 'transparent',
-        transition: 'border-color .2s ease',
-        pointerEvents: 'none',
-        zIndex: 100,
-      }
+    const outlineStyle: CSSObject = {
+      content: '" "',
+      display: 'block',
+      position: 'absolute',
+      top: -3,
+      bottom: -3,
+      left: -3,
+      right: -3,
+      borderRadius: br ? br + 3 : 3,
+      border: 'transparent 3px solid',
+      borderColor: show
+        ? getColor(color || 'primaries.4', theme)
+        : 'transparent',
+      transition: 'border-color .2s ease',
+      pointerEvents: 'none',
+      zIndex: 100,
     }
 
     return {
       position: 'relative',
       borderRadius: br,
-      border: 'transparent solid 1.5px',
+      // border: 'transparent solid 1.5px',
       '::before': outlineStyle,
       ':focus': focusStyle,
     }

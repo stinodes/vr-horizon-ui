@@ -203,7 +203,7 @@ const ContainerDocs = (props: Props) => (
     </ExampleDocumentation>
     <ExampleDocumentation center title="Outline">
       <Flex flexDirection="column" p={3}>
-        <Outline outline={true}>
+        <Outline show>
           <Text>
             If the outline prop isn't specified, the component will show itself
             on focus of it's child.

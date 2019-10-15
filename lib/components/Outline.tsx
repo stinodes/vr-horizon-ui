@@ -6,7 +6,7 @@ import { styled } from '../utils'
 import { outline } from './styles'
 
 const OutlineComp = styled(Flex)<
-  FlexProps & { outline?: string | boolean; borderRadius?: number }
+  FlexProps & { show?: boolean; color?: string; borderRadius?: number }
 >(
   outline({
     focus: false,
@@ -18,18 +18,20 @@ const OutlineComp = styled(Flex)<
 const Outline = ({
   children,
   render,
-  outline,
+  show,
+  color,
   ...props
 }: {
   children: ReactNode
   render?: (focus: boolean) => ReactNode
-  outline?: boolean | string
+  color?: string
+  show?: boolean
   borderRadius?: number
 } & FlexProps) => {
   const [isFocused, setFocused] = React.useState(false)
   const child = React.Children.only(children) as ReactElement
   return (
-    <OutlineComp outline={isFocused || outline} {...props}>
+    <OutlineComp show={isFocused || show} color={color} {...props}>
       {React.cloneElement(child, {
         onFocus: (e: Event) => {
           setFocused(true)
