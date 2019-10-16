@@ -2,17 +2,7 @@ import React, { Fragment } from 'react'
 import { repeat } from 'ramda'
 import { color } from 'styled-system'
 import { route } from 'navi'
-import {
-  Heading,
-  Text,
-  MaxWidthBox,
-  Flex,
-  Card,
-  Box,
-  getColor,
-  Grid,
-  Col,
-} from '../ui'
+import { Heading, Text, MaxWidthBox, Flex, Card, Box, Grid, Col } from '../ui'
 import { styled } from '../utils'
 import { Link } from '../components/Link'
 import { Accent } from '../components/Accent'

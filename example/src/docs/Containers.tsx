@@ -9,7 +9,6 @@ import {
   Text,
   Grid,
   Col,
-  Input,
   Outline,
 } from '../ui'
 import { Accent } from '../components/Accent'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { route } from 'navi'
 import { __, prop, assoc } from 'ramda'
-import { Heading, Flex, Input } from '../ui'
+import { Heading, Flex, Input, TextArea, Select } from '../ui'
 import { MaxWidthBox } from '../ui'
 import { useState } from 'react'
 import { ExampleDocumentation } from './Doc'
@@ -69,6 +69,27 @@ const InputDocs = (props: {}) => {
           onChange={e => onChange(e)}
           placeholder="Custom border input"
         />
+      </ExampleDocumentation>
+      <ExampleDocumentation center title="Text area">
+        <TextArea
+          name="textarea"
+          label="Text area"
+          value={value('textarea')}
+          onChange={e => onChange(e)}
+          placeholder="Write some text here..."
+        />
+      </ExampleDocumentation>
+      <ExampleDocumentation center title="Select">
+        <Select
+          name="select"
+          label="Choose your favorite food"
+          value={value('select')}
+          onChange={e => onChange(e)}>
+          <option>Pizza</option>
+          <option>Burgers</option>
+          <option>Noodles</option>
+          <option>Beer</option>
+        </Select>
       </ExampleDocumentation>
     </Flex>
   )
