@@ -9,10 +9,7 @@
 /coverage
 
 # production
-.rpt2_cache
 /build
-example/src/ui
-dist
 
 # misc
 .DS_Store

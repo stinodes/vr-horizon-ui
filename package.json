@@ -1,34 +1,36 @@
 {
   "name": "vr-horizon-ui",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1-alpha.13",
   "private": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "files": [
     "dist",
     "README.md"
   ],
   "dependencies": {
-    "emotion": "^10.0.9",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "@types/ramda": "^0.26.19",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-select": "^3.0.3",
+    "@types/styled-system": "^5.1.0",
+    "babel-loader": "^8.0.6",
     "polished": "^3.3.2",
     "ramda": "^0.26.1",
-    "react-select": "^2.4.3",
-    "react-spring": "^8.0.20",
-    "react-table": "^7.0.0-alpha.3",
-    "recompose": "^0.30.0",
-    "styled-system": "^4.2.2"
+    "styled-system": "^5.1.0",
+    "typescript": "^3.5.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build:cmd": "cross-env-shell rm -rf dist && babel lib --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,__snapshots__ && cp -r dist/Components/Icons dist/Icons && rm -rf dist/Components/Icons/feather",
-    "build": "cross-env NODE_ENV=production yarn build:cmd",
-    "build:icons": "svgr --svg-props viewBox=\"0 0 24 24\" -d lib/Components/Icons/ lib/Components/Icons/feather",
-    "test": "react-scripts test",
-    "flow": "flow",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "deploy-storybook": "storybook-to-ghpages"
+    "build": "rollup -c",
+    "build-watch": "rollup -c -w",
+    "install-all": "yarn && cd example && yarn && cd ..",
+    "start-example": "cd example && yarn start",
+    "deploy-example": "cd example && yarn deploy",
+    "dev": "concurrently --kill-others \"yarn build-watch\" \"yarn start-example\"",
+    "test": "ts-node test/test.ts",
+    "pretest": "yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,31 +48,28 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-transform-flow-strip-types": "^7.4.4",
     "@emotion/babel-preset-css-prop": "^10.0.9",
-    "@storybook/addon-actions": "^5.0.11",
-    "@storybook/addon-info": "^5.0.11",
-    "@storybook/addon-knobs": "^5.0.11",
-    "@storybook/addon-links": "^5.0.11",
-    "@storybook/addons": "^5.0.11",
-    "@storybook/react": "^5.0.11",
-    "@storybook/storybook-deployer": "^2.8.1",
+    "@emotion/core": "^10.0.14",
+    "@emotion/styled": "^10.0.14",
     "@svgr/cli": "^4.2.0",
-    "babel-loader": "^8.0.6",
+    "@svgr/rollup": "^4.3.2",
+    "concurrently": "^4.1.2",
     "cross-env": "^5.2.0",
-    "flow-bin": "^0.98.1",
+    "emotion-theming": "^10.0.14",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "^3.0.1",
-    "storybook-readme": "^5.0.3"
+    "react-spring": "^8.0.27",
+    "rollup": "^1.20.0",
+    "rollup-plugin-typescript2": "^0.22.1",
+    "ts-node": "^8.3.0"
   },
   "peerDependencies": {
     "@emotion/core": "^10.0.10",
-    "@emotion/styled": "^10.0.11",
-    "emotion": "^10.0.9",
-    "emotion-theming": "^10.0.10"
+    "@emotion/styled": "^10.0.0",
+    "emotion-theming": "^10.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-spring": "^8.0.0"
   }
 }
