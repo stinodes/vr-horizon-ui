@@ -7,4 +7,5 @@ export const routes = mount({
   '/containers': lazy(() => import('./Containers')),
   '/input': lazy(() => import('./Input')),
   '/modal': lazy(() => import('./Modal')),
+  '/table': lazy(() => import('./Table')),
 })

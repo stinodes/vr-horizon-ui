@@ -36,4 +36,5 @@ Now you can start rendering (themed) components anywhere.
 ## Running locally 
 To build the library and run the example-app locally, start by cloning the repository and install dependencies using the `$ yarn install-all` command.  
 This installs dependencies for both projects.  
-Next, run `$ yarn dev`. This will start a process that builds the lib, and one that runs the packager for the app. Give it a moment to build the library, and have a look around.
+Next, run `$ yarn dev`.  
+This will start a process that builds the lib, and one that runs the packager for the app. Give it a moment to build the library, and have a look around.

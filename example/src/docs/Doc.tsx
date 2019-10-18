@@ -2,14 +2,10 @@ import React, { ReactNode } from 'react'
 import toJSXString from 'react-element-to-jsx-string'
 import { LayoutProps, SpaceProps } from 'styled-system'
 import { transparentize } from 'polished'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { coy } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { getColor, Flex, Heading } from '../ui'
 import { styled } from '../utils'
+import { Code } from './Code'
 
-const Highlighter = styled(SyntaxHighlighter)({
-  margin: 0,
-})
 const NestedDocContainer = styled(Flex)({
   flexGrow: 1,
   overflow: 'auto',
@@ -35,12 +31,14 @@ type Props = {
   children: ReactNode
   center?: boolean
   first?: boolean
+  code?: string
 }
 const ExampleDocumentation = ({
   title,
   children,
   center,
   first,
+  code,
   ...props
 }: Props & LayoutProps & SpaceProps) => {
   const containerProps = center
@@ -62,15 +60,11 @@ const ExampleDocumentation = ({
             {children}
           </Flex>
         </ExampleContainer>
-        <DocContainer width={0.5} flexDirection="column" bg="white">
-          <NestedDocContainer pl={3} py={3}>
-            <Highlighter
-              language="jsx"
-              style={coy}
-              customStyle={{ lineHeight: 1.2, backgroundColor: 'transparent' }}
-              codeTagProps={{ style: {} }}>
-              {toJSXString(children, { showFunctions: true })}
-            </Highlighter>
+        <DocContainer width={0.5} py={3} flexDirection="column" bg="white">
+          <NestedDocContainer>
+            <Code>
+              {code || toJSXString(children, { showFunctions: true })}
+            </Code>
           </NestedDocContainer>
         </DocContainer>
       </Flex>
