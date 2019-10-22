@@ -35,6 +35,7 @@ type ShadowProps = {
   glow?: boolean
 }
 type DisabledProps = { disabled?: boolean }
+type OutlineProps = { outlineColor?: string }
 
 const shadows = ({
   theme,
@@ -50,7 +51,7 @@ const shadows = ({
   }
 }
 
-type BaseProps = DisabledProps & ShadowProps & ColorProps
+type BaseProps = DisabledProps & ShadowProps & OutlineProps & ColorProps
 const Base: StyledComponent<
   ButtonHTMLAttributes<HTMLButtonElement> & RefAttributes<HTMLButtonElement>,
   BaseProps & FlexboxProps & LayoutProps & SpaceProps

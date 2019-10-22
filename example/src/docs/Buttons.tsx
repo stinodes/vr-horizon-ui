@@ -17,6 +17,11 @@ const ButtonDocs = (props: Props) => (
         Click Me!
       </Button>
     </ExampleDocumentation>
+    <ExampleDocumentation center title="Colors">
+      <Button onClick={() => alert('Click!')} bg="lights.3" color="primary">
+        Click Me!
+      </Button>
+    </ExampleDocumentation>
     <ExampleDocumentation center title="Shadow">
       <Button
         raised
