@@ -39,7 +39,7 @@ export const interactiveColor = <Props extends { disabled?: boolean }>(
 export const outline = <
   Props extends {
     show?: boolean
-    color?: string
+    outlineColor?: string
     borderRadius?: number
     theme: Theme
   }
@@ -51,7 +51,7 @@ export const outline = <
   focus?: boolean
 } = {}) => {
   return (props: Props): CSSObject => {
-    const { theme, color, show } = props
+    const { theme, outlineColor: color, show } = props
     let br: number | undefined = undefined
     if (typeof borderRadius === 'number') br = borderRadius
     if (typeof borderRadius === 'function') br = borderRadius(props)

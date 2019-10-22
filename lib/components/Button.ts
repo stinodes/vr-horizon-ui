@@ -6,20 +6,15 @@ import {
   LayoutProps,
   SpaceProps,
 } from 'styled-system'
-import { join, compose, prop, mergeAll } from 'ramda'
+import { join, compose, mergeAll } from 'ramda'
 import { CSSObject } from '@emotion/css'
 import { interactiveColor, outline } from './styles'
 import { Flex } from './Flex'
 import { getColor, styled, StyledComponent } from '../utils'
 import { Theme } from '../theme'
 import {
-  HTMLAttributes,
   ComponentProps,
-  ComponentPropsWithoutRef,
-  DetailedHTMLProps,
   ComponentPropsWithRef,
-  HTMLProps,
-  ClassAttributes,
   RefAttributes,
   ButtonHTMLAttributes,
 } from 'react'
