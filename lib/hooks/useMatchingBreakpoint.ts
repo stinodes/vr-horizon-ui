@@ -3,26 +3,22 @@ import { ThemeContext } from '@emotion/core'
 import { Theme } from '../theme'
 
 const createQuery = (key: string, value: string) => `(${key}: ${value})`
+const matchesQuery = (size: string) =>
+  window.matchMedia(createQuery('min-width', size)).matches
+
 export const useMatchingBreakpoint = (
   size: 'sm' | 'md' | 'lg' | 'xlg',
   disable?: boolean,
 ) => {
-  const theme = useContext(ThemeContext) as Theme
-  const breakpoints = theme.breakpoints
-  const [isMatching, setMatching] = useState(false)
+  const { breakpoints } = useContext(ThemeContext) as Theme
+  const [isMatching, setMatching] = useState(matchesQuery(breakpoints[size]))
 
   const handleResize = useCallback(() => {
-    const newMatching = window.matchMedia(
-      createQuery('min-width', breakpoints[size]),
-    ).matches
+    const newMatching = matchesQuery(breakpoints[size])
     if (newMatching !== isMatching) {
       setMatching(newMatching)
     }
-  }, [isMatching])
-
-  useEffect(() => {
-    handleResize()
-  }, [size])
+  }, [isMatching, breakpoints, size])
 
   useEffect(() => {
     if (disable) return () => {}
@@ -32,7 +28,7 @@ export const useMatchingBreakpoint = (
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('orientationchange', handleResize)
     }
-  }, [isMatching])
+  }, [disable, handleResize])
 
   return isMatching
 }
