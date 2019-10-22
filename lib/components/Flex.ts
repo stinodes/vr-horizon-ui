@@ -1,8 +1,11 @@
-import { styled } from '../utils'
-import { Box, BoxProps } from './Box'
+import { styled, StyledComponent } from '../utils'
+import { Box } from './Box'
 import { FlexboxProps, flexbox } from 'styled-system'
+import { ComponentPropsWithRef } from 'react'
 
-export type FlexProps = BoxProps & FlexboxProps
-const Flex = styled(Box)<FlexProps>({ display: 'flex' }, flexbox)
+const Flex: StyledComponent<
+  ComponentPropsWithRef<typeof Box>,
+  FlexboxProps
+> = styled(Box)({ display: 'flex' }, flexbox)
 Flex.displayName = 'Flex'
 export { Flex }

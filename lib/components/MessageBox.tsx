@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { ComponentPropsWithoutRef } from 'react'
 import { animated, useTransition } from 'react-spring'
 import { Text } from './Text'
 import { styled } from '../utils'
-import { Flex, FlexProps } from './Flex'
+import { Flex } from './Flex'
 
 const Container = styled('div')({
   position: 'fixed',
@@ -10,7 +10,7 @@ const Container = styled('div')({
   left: '50%',
   transform: 'translateX(-50%)',
 })
-const AnimatedFlex = styled(Flex.withComponent(animated.div))({
+const AnimatedFlex: typeof Flex = styled(Flex.withComponent(animated.div))({
   borderRadius: 5,
 })
 
@@ -18,7 +18,7 @@ type Props = {
   message: null | string
   color?: string
   bg?: string
-} & FlexProps
+} & ComponentPropsWithoutRef<typeof Flex>
 export const MessageBox = ({ message, color, bg, ...props }: Props) => {
   const componentProps = props
   const transition = useTransition(message, null, {

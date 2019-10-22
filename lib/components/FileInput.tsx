@@ -1,22 +1,28 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { useState, useRef, useCallback, SyntheticEvent, DragEvent } from 'react'
+import {
+  useState,
+  useRef,
+  useCallback,
+  SyntheticEvent,
+  DragEvent,
+  ComponentPropsWithRef,
+} from 'react'
 import { path } from 'ramda'
 import { Button } from './Button'
 import { Icon } from './Icons'
 import X from './Icons/feather/x.svg'
-import { layout, flexbox, position } from 'styled-system'
-import { styled } from '../utils'
+import { styled, StyledComponent } from '../utils'
 import { Flex } from './Flex'
 
-const DropArea = styled(Button)<{
-  dragOver: boolean
-  draggingOver: boolean
-  outline?: boolean | string
-}>(
-  layout,
-  flexbox,
-  position,
+const DropArea: StyledComponent<
+  ComponentPropsWithRef<typeof Button>,
+  {
+    dragOver: boolean
+    draggingOver: boolean
+    outline?: boolean | string
+  }
+> = styled(Button)(
   {
     transition: 'background-color .2s ease, transform .2s ease',
   },

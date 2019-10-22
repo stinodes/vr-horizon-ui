@@ -1,0 +1,62 @@
+{
+  "name": "vr-horizon-ui",
+  "version": "0.0.1-alpha.14-6c2b5aba",
+  "private": false,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "dependencies": {
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.10",
+    "@types/ramda": "^0.26.19",
+    "@types/react": "^16.8.22",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-select": "^3.0.3",
+    "@types/styled-system": "^5.1.0",
+    "babel-loader": "^8.0.6",
+    "polished": "^3.3.2",
+    "ramda": "^0.26.1",
+    "styled-system": "^5.1.0",
+    "typescript": "^3.5.2"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "build-watch": "rollup -c -w",
+    "install-all": "yarn && cd example && yarn && cd ..",
+    "start-example": "cd example && yarn start",
+    "deploy-example": "cd example && yarn deploy",
+    "dev": "concurrently --kill-others \"yarn build-watch\" \"yarn start-example\"",
+    "test": "ts-node test/test.ts",
+    "pretest": "yarn build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "peerDependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.0",
+    "emotion-theming": "^10.0.0",
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0",
+    "react-spring": "^8.0.0"
+  }
+}

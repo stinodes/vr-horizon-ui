@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { forwardRef, Ref, ReactNode } from 'react'
+import { forwardRef, ComponentPropsWithRef } from 'react'
 import { jsx } from '@emotion/core'
-import { FlexProps, Flex } from './Flex'
+import { Flex } from './Flex'
 
 export const Grid = forwardRef<
   HTMLDivElement,
-  { gutter?: number; children?: ReactNode } & FlexProps
+  { gutter?: number } & ComponentPropsWithRef<typeof Flex>
 >(({ gutter = 2, ...props }, ref) => (
   <Flex
     ref={ref}
@@ -19,6 +19,6 @@ Grid.displayName = 'Grid'
 
 export const Col = forwardRef<
   HTMLDivElement,
-  { gutter?: number; children?: ReactNode } & FlexProps
+  { gutter?: number } & ComponentPropsWithRef<typeof Flex>
 >(({ gutter = 2, ...props }, ref) => <Flex ref={ref} px={gutter} {...props} />)
 Col.displayName = 'Col'

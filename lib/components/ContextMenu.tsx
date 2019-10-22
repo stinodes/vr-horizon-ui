@@ -7,6 +7,7 @@ import {
   Fragment,
   ComponentType,
   SVGAttributes,
+  ComponentPropsWithoutRef,
 } from 'react'
 import { useTransition, animated } from 'react-spring'
 import { useOnEscPress } from '../hooks'
@@ -19,6 +20,7 @@ import { Absolute } from './Absolute'
 import { Card, CardProps } from './Card'
 import { styled } from '../utils'
 import Dots from './Icons/feather/more-horizontal.svg'
+import { LayoutProps } from 'styled-system'
 
 const AnimatedAbsolute = Absolute.withComponent(animated.div)
 const Overlay = styled(Flex)({
@@ -33,8 +35,7 @@ const Overlay = styled(Flex)({
 type Props = {
   coordinates: null | { bottom?: boolean; x: number; y: number }
   onRequestClose: () => any
-  children: Node
-} & CardProps
+} & ComponentPropsWithoutRef<typeof Card>
 
 const DEFAULT_WIDTH = 210
 const MAX_HEIGHT = 210

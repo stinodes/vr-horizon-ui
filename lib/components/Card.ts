@@ -1,15 +1,19 @@
-import { styled, getColor, getBoxShadow } from '../utils'
-import { Flex, FlexProps } from './Flex'
+import { styled, StyledComponent, getColor, getBoxShadow } from '../utils'
+import { Flex } from './Flex'
 import { transparentize } from 'polished'
 import { CSSObject } from '@emotion/css'
+import { ComponentProps } from 'react'
+import { Theme } from '../theme'
 
-export type CardProps = FlexProps & {
+export type CardProps = {
   border?: boolean | string
   shadow?: boolean | string
   borderRadius?: number | string
   shadowPosition?: 'top' | 'bottom'
 }
-const Card = styled(Flex)<CardProps>(
+const Card: StyledComponent<ComponentProps<typeof Flex>, CardProps> = styled(
+  Flex,
+)(
   { borderRadius: 3 },
   ({ theme, borderRadius, border, shadow, shadowPosition }) =>
     ({

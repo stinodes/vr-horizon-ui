@@ -1,6 +1,7 @@
 import { keyframes } from '@emotion/core'
 import { transparentize } from 'polished'
-import { styled, getColor } from '../utils'
+import { styled, getColor, StyledComponent } from '../utils'
+import { HTMLAttributes } from 'react'
 
 const animation = keyframes({
   from: {
@@ -11,7 +12,10 @@ const animation = keyframes({
   },
 })
 
-export const Spinner = styled('div')<{ size?: number; color?: string }>(
+export const Spinner: StyledComponent<
+  HTMLAttributes<HTMLDivElement>,
+  { size?: number; color?: string }
+> = styled('div')(
   {
     borderRadius: '50%',
     background: 'transparent',

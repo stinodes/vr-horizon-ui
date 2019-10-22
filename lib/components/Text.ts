@@ -5,10 +5,14 @@ import {
   SpaceProps,
   space,
 } from 'styled-system'
-import { styled, getColor } from '../utils'
+import { styled, getColor, StyledComponent } from '../utils'
+import { HTMLAttributes } from 'react'
 
 export type TextProps = TypographyProps & SpaceProps & { color?: string }
-const Text = styled('p')<TextProps>(
+const Text: StyledComponent<
+  HTMLAttributes<HTMLParagraphElement>,
+  TextProps
+> = styled('p')(
   {
     fontSize: 16,
     lineHeight: 1.3,
@@ -24,7 +28,10 @@ const Text = styled('p')<TextProps>(
 )
 Text.displayName = 'Text'
 
-const Heading = styled('h1')<TextProps>(
+const Heading: StyledComponent<
+  HTMLAttributes<HTMLHeadingElement>,
+  TextProps
+> = styled('h1')(
   {
     fontFamily: 'Montserrat',
     fontWeight: 700,
