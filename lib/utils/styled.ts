@@ -1,4 +1,7 @@
-import _styled, { CreateStyled } from '@emotion/styled'
+import _styled, {
+  CreateStyled,
+  StyledComponent as _StyledComponent,
+} from '@emotion/styled'
 import { path, split } from 'ramda'
 import { Theme } from '../theme'
 import { transparentize } from 'polished'
@@ -23,3 +26,8 @@ export const getBoxShadow = (
 }
 
 export const styled = _styled as CreateStyled<Theme>
+export type StyledComponent<Inner, Outer> = _StyledComponent<
+  Inner,
+  Outer,
+  Theme
+>

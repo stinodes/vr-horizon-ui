@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "vr-horizon-ui": {
+      "signature": "6c2b5aba3c5749900d9b44fb9cfdbb0d",
+      "file": true,
+      "replaced": "^0.0.1"
+    }
+  }
+}

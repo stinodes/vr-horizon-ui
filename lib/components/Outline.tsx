@@ -1,13 +1,19 @@
-import React, { ReactNode, ReactElement } from 'react'
+import React, {
+  ReactNode,
+  ReactElement,
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+} from 'react'
 import { layout } from 'styled-system'
 import { prop } from 'ramda'
-import { Flex, FlexProps } from './Flex'
-import { styled } from '../utils'
+import { Flex } from './Flex'
+import { styled, StyledComponent } from '../utils'
 import { outline } from './styles'
 
-const OutlineComp = styled(Flex)<
-  FlexProps & { show?: boolean; color?: string; borderRadius?: number }
->(
+const OutlineComp: StyledComponent<
+  ComponentPropsWithRef<typeof Flex>,
+  { show?: boolean; color?: string; borderRadius?: number }
+> = styled(Flex)(
   outline({
     focus: false,
     borderRadius: (props: { borderRadius?: any }) =>
@@ -21,13 +27,9 @@ const Outline = ({
   show,
   color,
   ...props
-}: {
-  children: ReactNode
-  render?: (focus: boolean) => ReactNode
-  color?: string
-  show?: boolean
-  borderRadius?: number
-} & FlexProps) => {
+}: ComponentPropsWithoutRef<typeof OutlineComp> & {
+  render?: (focused?: boolean) => ReactNode
+}) => {
   const [isFocused, setFocused] = React.useState(false)
   const child = React.Children.only(children) as ReactElement
   return (

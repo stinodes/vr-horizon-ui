@@ -1,11 +1,28 @@
 import { transparentize } from 'polished'
-import { color, typography } from 'styled-system'
+import {
+  color,
+  typography,
+  FlexboxProps,
+  LayoutProps,
+  SpaceProps,
+} from 'styled-system'
 import { join, compose, prop, mergeAll } from 'ramda'
 import { CSSObject } from '@emotion/css'
 import { interactiveColor, outline } from './styles'
-import { Flex, FlexProps } from './Flex'
-import { getColor, styled } from '../utils'
+import { Flex } from './Flex'
+import { getColor, styled, StyledComponent } from '../utils'
 import { Theme } from '../theme'
+import {
+  HTMLAttributes,
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  DetailedHTMLProps,
+  ComponentPropsWithRef,
+  HTMLProps,
+  ClassAttributes,
+  RefAttributes,
+  ButtonHTMLAttributes,
+} from 'react'
 
 const buttonColor: (
   props: ColorProps & DisabledProps,
@@ -38,8 +55,11 @@ const shadows = ({
   }
 }
 
-type BaseProps = FlexProps & DisabledProps & ShadowProps & ColorProps
-const Base = styled(Flex.withComponent('button'))<BaseProps>(
+type BaseProps = DisabledProps & ShadowProps & ColorProps
+const Base: StyledComponent<
+  ButtonHTMLAttributes<HTMLButtonElement> & RefAttributes<HTMLButtonElement>,
+  BaseProps & FlexboxProps & LayoutProps & SpaceProps
+> = styled(Flex.withComponent('button'))(
   buttonColor,
   typography,
   {
@@ -52,7 +72,7 @@ const Base = styled(Flex.withComponent('button'))<BaseProps>(
   ({ disabled }) => (disabled ? { cursor: 'not-allowed' } : {}),
 )
 
-const BaseWithOutline = styled(Base)<BaseProps>(outline())
+const BaseWithOutline: typeof Base = styled(Base)(outline())
 BaseWithOutline.displayName = 'FlexButton'
 
 type SizeProps = { size?: 'regular' | 'small' | 'circle' }
@@ -77,8 +97,10 @@ const button = ({ size }: SizeProps) => {
   }
 }
 
-type StyledProps = BaseProps & SizeProps
-const StyledButton = styled(Base)<StyledProps>(
+const StyledButton: StyledComponent<
+  ComponentPropsWithRef<typeof Base>,
+  SizeProps
+> = styled(Base)(
   {
     justifyContent: 'center',
     alignItems: 'center',
@@ -97,7 +119,10 @@ const floatingButton = ({ size = 64 }: { size?: number }) => ({
   height: size,
   borderRadius: size * 0.5,
 })
-const StyledFloatingButton = styled(Base)<BaseProps & { size?: number }>(
+const StyledFloatingButton: StyledComponent<
+  ComponentProps<typeof Base>,
+  { size?: number }
+> = styled(Base)(
   {
     alignItems: 'center',
     justifyContent: 'center',

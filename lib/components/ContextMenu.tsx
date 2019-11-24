@@ -7,7 +7,8 @@ import {
   Fragment,
   ComponentType,
   SVGAttributes,
-  ReactNode,
+  ComponentPropsWithoutRef,
+  ReactNode
 } from 'react'
 import { useTransition, animated } from 'react-spring'
 import { useOnEscPress } from '../hooks'
@@ -34,8 +35,7 @@ const Overlay = styled(Flex)({
 type Props = {
   coordinates: null | { bottom?: boolean; x: number; y: number }
   onRequestClose: () => any
-  children: ReactNode
-} & CardProps
+} & ComponentPropsWithoutRef<typeof Card>
 
 const DEFAULT_WIDTH = 210
 const MAX_HEIGHT = 210

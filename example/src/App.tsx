@@ -1,11 +1,17 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { getBoxShadow, Flex, Heading, MaxWidthBox, Spinner } from './ui'
+import {
+  Flex,
+  getBoxShadow,
+  Heading,
+  MaxWidthBox,
+  Spinner,
+  getColor,
+} from './ui'
 import { styled } from './utils'
 import { Router, View, Link } from 'react-navi'
 import { routes } from './docs/routes'
 import { Suspense } from 'react'
-import { getColor } from './ui'
 
 const Nav = styled(Flex)(
   {
