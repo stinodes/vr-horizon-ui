@@ -125,11 +125,13 @@ const HomeDocs = (props: Props) => (
           <Link href="modal">Modals</Link>
         </Col>
         <Col width={1 / 3}>
-          <Link
-            href="https://github.com/tannerlinsley/react-table"
-            target="_blank">
-            Tables
-          </Link>
+          <Link href="table">Tables</Link>
+        </Col>
+        <Col width={1 / 3}>
+          <Link href="icon">Icons</Link>
+        </Col>
+        <Col width={1 / 3}>
+          <Link href="context-menu">Context Menus</Link>
         </Col>
       </Grid>
     </MaxWidthBox>
