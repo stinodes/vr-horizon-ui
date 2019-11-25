@@ -8,6 +8,7 @@ import {
   ComponentType,
   SVGAttributes,
   ComponentPropsWithoutRef,
+  ReactNode
 } from 'react'
 import { useTransition, animated } from 'react-spring'
 import { useOnEscPress } from '../hooks'
@@ -20,7 +21,6 @@ import { Absolute } from './Absolute'
 import { Card, CardProps } from './Card'
 import { styled } from '../utils'
 import Dots from './Icons/feather/more-horizontal.svg'
-import { LayoutProps } from 'styled-system'
 
 const AnimatedAbsolute = Absolute.withComponent(animated.div)
 const Overlay = styled(Flex)({
@@ -106,7 +106,7 @@ ContextMenu.WIDTH = DEFAULT_WIDTH
 ContextMenu.MAX_HEIGHT = MAX_HEIGHT
 
 type OverflowButtonProps = {
-  children: Node
+  children: ReactNode
   width?: number
   color?: string
   bg?: string
@@ -159,10 +159,14 @@ export const OverflowButton = ({
 
 export const ContextMenuItem = ({
   children,
+  bg = '#ffffff',
+  right,
   color,
   ...props
 }: {
-  children: Node
+  bg?: string
+  children: ReactNode
+  right?: null | undefined | ReactNode
   onClick?: () => any
   color?: string
   to?: string
@@ -171,7 +175,9 @@ export const ContextMenuItem = ({
     css={{ height: 36, flexShrink: 0 }}
     px={2}
     alignItems="center"
+    bg={bg}
     {...props}>
+    {right && <Flex pr={1}>{right}</Flex>}
     <Text color={color || 'darks.2'} fontSize={15}>
       {children}
     </Text>

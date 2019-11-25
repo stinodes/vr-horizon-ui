@@ -8,4 +8,6 @@ export const routes = mount({
   '/input': lazy(() => import('./Input')),
   '/modal': lazy(() => import('./Modal')),
   '/table': lazy(() => import('./Table')),
+  '/icon': lazy(() => import('./Icon')),
+  '/context-menu': lazy(() => import('./ContextMenu')),
 })

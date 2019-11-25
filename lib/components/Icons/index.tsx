@@ -9,12 +9,13 @@ type Props = {
   size?: number
   icon: ComponentType<SVGAttributes<SVGElement>>
 }
-const Icon = ({ color, icon: Svg, size, ...props }: Props) => {
+const Icon = ({ color, icon: Svg, size = 32, ...props }: Props) => {
   const theme = useContext(ThemeContext) as Theme
   const colorString = getColor(color || 'primary', theme)
   return <Svg stroke={colorString} {...props} height={size} width={size} />
 }
 
 const StyledIcon = styled(Icon)(width, height)
+StyledIcon.displayName = 'Icon'
 
 export { StyledIcon as Icon }
