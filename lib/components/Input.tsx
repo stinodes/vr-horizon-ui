@@ -116,6 +116,7 @@ function createInputComponent<ExtraProps>(
           value={value || undefined}
           highlight={highlight || error}
           bg="white"
+          disabled={disabled}
           {...props}
           border={borderColor}
         />

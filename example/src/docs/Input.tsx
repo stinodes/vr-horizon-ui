@@ -70,6 +70,16 @@ const InputDocs = (props: {}) => {
           placeholder="Labeled input"
         />
       </ExampleDocumentation>
+      <ExampleDocumentation center title="disabled">
+        <Input
+          disabled
+          name="disabled"
+          label="Disabled input"
+          value={value('disabled')}
+          onChange={e => onChange(e)}
+          placeholder="Labeled input"
+        />
+      </ExampleDocumentation>
       <ExampleDocumentation center title="Highlight">
         <Input
           highlight
