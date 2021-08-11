@@ -1207,32 +1207,9 @@
   dependencies:
     ts-toolbelt "^3.2.22"
 
-"@types/react-dom@*":
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.0.tgz#ba6ddb00bf5de700b0eb91daa452081ffccbfdea"
-  integrity sha512-OL2lk7LYGjxn4b0efW3Pvf2KBVP0y1v3wip1Bp7nA79NkOpElH98q3WdCEdDj93b2b0zaeBG9DvriuKjIK5xDA==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-dom@^16.8.4":
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.4.tgz#7fb7ba368857c7aa0f4e4511c4710ca2c5a12a88"
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-select@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-select/-/react-select-3.0.3.tgz#4c04cc35e1b5951433cbac576741c71127fd9c72"
-  integrity sha512-cno6yYpC5RtVLfxmEPLE0VRJHIj5bsPL6Za0aSX33WeR8zQ3G3KGp9umfQwDm1VzhPC0izUU9eWNov+prbd3pQ==
-  dependencies:
-    "@types/react" "*"
-    "@types/react-dom" "*"
-    "@types/react-transition-group" "*"
-
-"@types/react-transition-group@*":
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.2.2.tgz#8c851c4598a23a3a34173069fb4c5c9e41c02e3f"
-  integrity sha512-YfoaTNqBwbIqpiJ5NNfxfgg5kyFP1Hqf/jqBtSWNv0E+EkkxmN+3VD6U2fu86tlQvdAc1o0SdWhnWFwcRMTn9A==
   dependencies:
     "@types/react" "*"
 
@@ -2300,8 +2277,9 @@ path-key@^2.0.0, path-key@^2.0.1:
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-2.0.1.tgz#411cadb574c5a140d3a4b1910d40d80cc9f40b40"
 
 path-parse@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==
 
 pify@^3.0.0:
   version "3.0.0"
